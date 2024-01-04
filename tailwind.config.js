@@ -5,7 +5,12 @@ export default {
     'node_modules/flowbite-react/lib/esm/**/*.js',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'primary': '#17149A',
+        'secondary': '#EAB816',
+      },
+    },
   },
   plugins: [
     require('flowbite/plugin'),

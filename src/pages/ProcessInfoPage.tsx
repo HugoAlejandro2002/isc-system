@@ -20,8 +20,8 @@ const ProcessInfoPage = () => {
   }, 0);
 
   return (
-    <div className="flex flex-col md:flex-row p-10 h-screen bg-sky-50">
-      <div className="w-2/3 flex flex-col">
+    <div className="flex flex-col md:flex-row p-10 h-screen bg-sky-50 overflow-hidden">
+      <div className="w-2/3 flex flex-col overflow-auto">
           <ProgressTracker
             steps={steps}
             currentStepIndex={passedCount - 1}

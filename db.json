@@ -75,6 +75,10 @@
         "internalDefenseStage": {
           "passed": false,
           "scheduledDate": "2024-05-20"
+        },
+        "externalDefenseStage": {
+          "passed": false,
+          "scheduledDate": "2024-05-20"
         }
       }
     }

@@ -22,8 +22,8 @@ export const MentorStage = ({ onPrevious, onNext }) => {
 
   return (
     <>
-      <div className="text-xl text-gray-800 font-bold divide-y divide-gray-300 mt-10 pt-5">
-        Etapa Tutor
+      <div className="txt1">
+        Etapa 2: Seleccionar Tutor
       </div>
       <form onSubmit={formik.handleSubmit} className="mx-5">
         <div className="mt-5">
@@ -31,7 +31,7 @@ export const MentorStage = ({ onPrevious, onNext }) => {
             htmlFor="tutor"
             className="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
           >
-            Seleccionar Tutor
+            Seleccione el tutor del estudiante
           </label>
           <select
             id="tutor"
@@ -68,7 +68,7 @@ export const MentorStage = ({ onPrevious, onNext }) => {
           <button
             type="button"
             onClick={onPrevious}
-            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-l"
+            className="btn2"
           >
             Anterior
           </button>

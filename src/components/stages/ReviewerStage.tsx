@@ -48,8 +48,8 @@ export const ReviewerStage: FC<ReviewerStageProps> = ({
 
   return (
     <>
-      <div className="text-gray-800 font-bold divide-y divide-gray-300 mt-10 p-5">
-        Etapa Revisor
+      <div className="txt1">
+        Etapa 3: Seleccionar Revisor
       </div>
       <form onSubmit={formik.handleSubmit} className="ml-5">
         <div className="mt-4">
@@ -103,7 +103,7 @@ export const ReviewerStage: FC<ReviewerStageProps> = ({
           <button
             type="button"
             onClick={onPrevious}
-            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-l"
+            className="btn2"
           >
             Anterior
           </button>

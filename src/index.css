@@ -15,3 +15,10 @@
   @apply text-xl text-blue-950 font-semibold mt-14 ps-6
 }
 
+.txt2 {
+  @apply block text-lg font-medium  text-neutral-800
+}
+
+.checkbox {
+  @apply text-blue-2 focus:ring-blue-2 focus:border-blue-2 cursor-pointer
+}

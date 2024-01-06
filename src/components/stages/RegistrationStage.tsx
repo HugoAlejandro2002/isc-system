@@ -46,15 +46,11 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext }) => {
 
   return (
     <>
-      <div className="txt1">
-        Etapa 1: Seminario de Grado
-      </div>
+      <div className="txt1">Etapa 1: Seminario de Grado</div>
       <form onSubmit={formik.handleSubmit} className="mt-5 mx-16">
         <div className="flex flex-row space-x-4">
           <div className="flex-1">
-            <label
-              className="block text-lg font-medium  text-neutral-800 dark:text-white"
-            >
+            <label className="txt2">
               1. Seleccione la modalidad
             </label>
             <div className="flex flex-col space-y-2 mt-2 mx-2">
@@ -74,19 +70,16 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext }) => {
               ))}
             </div>
             {formik.touched.mode && formik.errors.mode ? (
-              <div className="text-red text-xs font-medium mt-1">
+              <div className="text-red-1 text-xs font-medium mt-1">
                 {formik.errors.mode}
               </div>
             ) : null}
           </div>
           <div className="flex-1">
-          <label
-              className="block text-lg font-medium  text-neutral-800 dark:text-white"
-            >
+            <label className="txt2">
               2. Seleccione la fecha de inscripción
             </label>
             <Datepicker
-              className="accent-amber-500"
               onSelectedDateChanged={(date) => {
                 formik.setFieldValue("date", date);
               }}
@@ -94,7 +87,13 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext }) => {
               inline
               showClearButton={false}
               showTodayButton={false}
+              autoHide={true}
             />
+            {formik.touched.date && formik.errors.date ? (
+              <div className="text-red-1 text-xs font-medium mt-1">
+                {formik.errors.date}
+              </div>
+            ) : null}
           </div>
         </div>
 

@@ -11,7 +11,7 @@ export default {
         'secondary': '#EAB816',
         'blue-1': "#3E447B",
         'blue-2': '#5C68CE',
-        'red': '#DF5555'
+        'red-1': '#DF5555'
       },
       fontFamily: {
         'sans': ['Work Sans']

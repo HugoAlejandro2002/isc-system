@@ -60,7 +60,7 @@ const ProgressTracker = ({ steps, currentStepIndex, status, countdown }) => {
         <h2 className="text-3xl font-semibold">Progreso</h2>
         <div className="flex items-center space-x-4 mx-5">
           <p className="text-xl font-semibold text-primary">
-            Estado: <span className="text-red font-medium">{status}</span>
+            Estado: <span className="text-red-1 font-medium">{status}</span>
           </p>
         </div>
       </div>

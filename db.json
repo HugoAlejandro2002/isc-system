@@ -35,6 +35,42 @@
       "label": "Grace Funsho"
     }
   ],
+  "presidents": [
+    {
+      "value": 1,
+      "label": "Juliet Oma"
+    },
+    {
+      "value": 2,
+      "label": "James Williams"
+    },
+    {
+      "value": 3,
+      "label": "Ahmed Ali"
+    },
+    {
+      "value": 4,
+      "label": "Grace Funsho"
+    }
+  ],
+  "secretary": [
+    {
+      "value": 1,
+      "label": "Juliet Oma"
+    },
+    {
+      "value": 2,
+      "label": "James Williams"
+    },
+    {
+      "value": 3,
+      "label": "Ahmed Ali"
+    },
+    {
+      "value": 4,
+      "label": "Grace Funsho"
+    }
+  ],
   "modes": [
     {
       "value": 1,

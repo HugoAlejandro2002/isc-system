@@ -22,3 +22,7 @@
 .checkbox {
   @apply text-blue-2 focus:ring-blue-2 focus:border-blue-2 cursor-pointer
 }
+
+.select-1 {
+  @apply bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-2 block w-full p-2.5 mt-2
+}

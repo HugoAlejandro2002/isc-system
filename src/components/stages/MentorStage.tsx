@@ -51,7 +51,7 @@ export const MentorStage = ({ onPrevious, onNext }) => {
             name="mentor"
             onChange={formik.handleChange}
             value={formik.values.mentor}
-            className={`bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-2 block w-full p-2.5 mt-2 ${
+            className={`select-1 ${
               formik.touched.mentor && formik.errors.mentor
                 ? "border-red-1"
                 : "border-gray-300"

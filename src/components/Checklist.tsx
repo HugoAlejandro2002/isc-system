@@ -8,17 +8,16 @@ import {
 } from "react-icons/fa";
 
 const Checklist = ({ process }) => {
-  const { studentName, titleProject, mode, graduationSteps } = process;
-  const { registrationStage, tutorStage, reviewerStage, internalDefenseStage } =
-    graduationSteps;
+  const { student_name,tutor_name,reviewer_name,modality_name,  project_name, period} = process;
+
   const telegramLink = `https://t.me/+59176517816`;
   return (
     <div className="h-full bg-white rounded-lg shadow-lg p-4 m-4">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold">{studentName}</h2>
-          <p className="text-gray-600">{titleProject}</p>
-          <p className="text-gray-500 text-sm">{mode}</p>
+          <h2 className="text-xl font-bold">{student_name}</h2>
+          <p className="text-gray-600">{project_name}</p>
+          <p className="text-gray-500 text-sm">{modality_name}</p>
         </div>
       </div>
 
@@ -44,9 +43,9 @@ const Checklist = ({ process }) => {
           <h3 className="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
             Seminario de Grado
           </h3>
-          {registrationStage.passed ? (
+          { period ? (
             <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
-              Inscripción {registrationStage.date}
+              Inscripción {period}
             </time>
           ) : (
             <span>No inscrito aun</span>
@@ -57,30 +56,30 @@ const Checklist = ({ process }) => {
             <FaUserTie className="text-blue-800" />
           </span>
           <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
-            Tutor: {tutorStage.tutorName || " "}
+            Tutor: {tutor_name || "Sin Asignacion"}
           </h3>
-          {tutorStage.passed ? (
+          {/* {tutorStage.passed ? (
             <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
               Aprobación del Tutor on {tutorStage.date}
             </time>
           ) : (
             <span>Fase de Tutor no Aprobada</span>
-          )}
+          )} */}
         </li>
         <li className="mb-10 ms-6">
           <span className="absolute flex items-center justify-center w-7 h-7 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
             <FaUserSecret className="text-blue-800" />
           </span>
           <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
-            Revisor: {reviewerStage.reviewerName || " "}
+            Revisor: {reviewer_name || "Sin Asignacion"}
           </h3>
-          {reviewerStage.passed ? (
+          {/* {reviewerStage.passed ? (
             <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
               Aprobación del Revisor on {reviewerStage.date}
             </time>
           ) : (
             <span>Fase de Revisor no Aprobada</span>
-          )}
+          )} */}
         </li>
         <li className="mb-10 ms-6">
           <span className="absolute flex items-center justify-center w-7 h-7 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
@@ -89,7 +88,7 @@ const Checklist = ({ process }) => {
           <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
             Defensa Interna
           </h3>
-          {internalDefenseStage.passed ? (
+          {/* {internalDefenseStage.passed ? (
             <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
               Defensa Interna on December 2nd, 2021
             </time>
@@ -97,7 +96,7 @@ const Checklist = ({ process }) => {
             <span className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
               Sin defensa Interna
             </span>
-          )}
+          )} */}
         </li>
         <li className="ms-6">
           <span className="absolute flex items-center justify-center w-7 h-7 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
@@ -106,7 +105,7 @@ const Checklist = ({ process }) => {
           <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
             Defensa Externa
           </h3>
-          {internalDefenseStage.passed ? (
+          {/* {internalDefenseStage.passed ? (
             <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
               Defensa Interna on December 2nd, 2021
             </time>
@@ -114,7 +113,7 @@ const Checklist = ({ process }) => {
             <span className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
               Sin defensa Externa
             </span>
-          )}
+          )} */}
         </li>
       </ol>
     </div>

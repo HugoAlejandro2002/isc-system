@@ -3,39 +3,11 @@ import { useEffect, useState } from "react";
 
 import Table from "../components/Table";
 import { FaSearch } from "react-icons/fa";
-const tableData = [
-    { 
-      id: 1,
-      studentName: "Juan Pérez",
-      tutorName: "Dr. Ana López",
-      reviewerName: "MSc. Carlos Gómez",
-      actions: "Acciones"
-    },
-    { 
-      id: 2,
-      studentName: "María García",
-      tutorName: "Dr. Manuel Torres",
-      reviewerName: "Dra. Lucía Hernández",
-      actions: "Acciones"
-    },
-    { 
-      id: 3,
-      studentName: "Carlos Díaz",
-      tutorName: "Dra. Susana Rivera",
-      reviewerName: "MSc. José Fernández",
-      actions: "Acciones"
-    },
-    { 
-      id: 4,
-      studentName: "Ana Ramírez",
-      tutorName: "Dr. Jorge Martínez",
-      reviewerName: "Dra. Laura Jiménez",
-      actions: "Acciones"
-    },
-  ];
+import { useLoaderData } from "react-router-dom";
 
   const tableHeaders = [
     { key: "studentName", label: "Estudiante" },
+    { key: "period", label: "Periodo" },
     { key: "tutorName", label: "Tutor" },
     { key: "reviewerName", label: "Revisor" },
     { key: "actions", label: "Acciones" },
@@ -45,10 +17,12 @@ const StudentsPage = () => {
   const pageSize = 10; // Define el número de elementos por página
   const [filteredData, setFilteredData] = useState([]);
   const [search, setSearch] = useState('');
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const students:any = useLoaderData();
+  const { data: tableData } = students;
   useEffect(()=>{
     const results = tableData.filter(item =>
-        item.studentName.toLowerCase().includes(search.toLowerCase())
+        item.student_name.toLowerCase().includes(search.toLowerCase())
       );
       setFilteredData(results);
   }, [search])

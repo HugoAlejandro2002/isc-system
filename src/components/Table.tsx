@@ -23,9 +23,9 @@ const Table: FC<TableProps> = ({
   const startIndex = (currentPage - 1) * pageSize;
   const paginatedData = data.slice(startIndex, startIndex + pageSize);
   const navigate = useNavigate();
-  const goStudentProcess = () => {
-    console.log('asdasd')
-    navigate("/studentProfile");
+  const goStudentProcess = (processId: number) => {
+    debugger;
+    navigate(`/studentProfile/${processId}`);
   }
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg m-10">
@@ -62,12 +62,13 @@ const Table: FC<TableProps> = ({
                 scope="row"
                 className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
               >
-                {item.studentName}
+                {item.student_name}
               </th>
-              <td className="px-6 py-4">{item.tutorName}</td>
-              <td className="px-6 py-4">{item.reviewerName}</td>
+              <td className="px-6 py-4">{item.period}</td>
+              <td className="px-6 py-4">{item.tutor_name}</td>
+              <td className="px-6 py-4">{item.reviewer_name}</td>
               <td className="px-6 py-4">
-                <button onClick={goStudentProcess} className="text-gray-600 hover:text-gray-900">
+                <button onClick={() => goStudentProcess(item.id)} className="text-gray-600 hover:text-gray-900">
                   <FaEye />
                 </button>
               </td>

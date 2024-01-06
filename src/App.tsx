@@ -6,7 +6,7 @@ import {
 
 import ProcessInfoPage from './pages/ProcessInfoPage';
 import ErrorPage from "./pages/ErrorPage";
-import { getProcess } from "./services/processServicer";
+import { getProcess, getProcessById } from "./services/processServicer";
 import StudentsPage from "./pages/StudentsPage";
 import LoginPage from "./pages/LoginPage";
 import Layout from "./layout/Layout";
@@ -14,6 +14,12 @@ import Layout from "./layout/Layout";
 function loader() {
   return getProcess();
 }
+
+const loadStudentProcess = async ({ params }) => {
+  const { id } = params;
+  return getProcessById(id);
+};
+
 
 const router = createBrowserRouter([
   {
@@ -30,8 +36,8 @@ const router = createBrowserRouter([
         element: <StudentsPage />,
       },
       {
-        path: '/studentProfile',
-        loader: loader,
+        path: '/studentProfile/:id',
+        loader: loadStudentProcess,
         element: <ProcessInfoPage />,
       },
     ]

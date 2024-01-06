@@ -9,7 +9,11 @@ export default {
       colors: {
         'primary': '#17149A',
         'secondary': '#EAB816',
+        'blue-2': '#5C68CE',
       },
+      fontFamily: {
+        'sans': ['Work Sans']
+      }
     },
   },
   plugins: [

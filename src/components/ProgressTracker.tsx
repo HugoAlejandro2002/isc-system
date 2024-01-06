@@ -68,7 +68,7 @@ const ProgressTracker = ({ steps, currentStepIndex, status, countdown }) => {
         <div className="relative w-full">
           <div className="absolute w-full bg-gray-200 rounded-full h-1.5">
             <div
-              className="absolute bg-blue-500 h-1.5 rounded-full"
+              className="absolute bg-blue-2 h-1.5 rounded-full"
               style={{ width: `${progressWidth}%` }}
             />
           </div>
@@ -76,8 +76,8 @@ const ProgressTracker = ({ steps, currentStepIndex, status, countdown }) => {
             <div
               key={step}
               className={`absolute -translate-y-1/2 ${
-                index <= currentStage ? "bg-blue-500" : "bg-gray-200"
-              } border-2 border-blue-500 rounded-full`}
+                index <= currentStage ? "bg-blue-2" : "bg-gray-200"
+              } border-2 border-blue-2 rounded-full`}
               style={{
                 left: `${(index / (steps.length - 1)) * 100}%`,
                 width: "24px",

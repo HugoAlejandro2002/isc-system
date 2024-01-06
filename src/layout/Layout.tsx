@@ -6,13 +6,17 @@ import Sidebar from "./Sidebar";
 
 const Layout = () => {
   return (
-    <div className="overflow-hidden">
+    <div className="flex flex-col w-full min-h-screen">
       <Navbar />
-      <Sidebar />
-      <main className="pt-6 sm:ml-64">
-        {" "}
-        <Outlet />
-      </main>
+      <div className="flex flex-row w-full">
+        <div className="flex w-1/6">
+          <Sidebar />
+        </div>
+        <main className="flex flex-col w-full h-full overflow-auto">
+          {" "}
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 };

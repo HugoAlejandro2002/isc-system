@@ -9,7 +9,9 @@ export default {
       colors: {
         'primary': '#17149A',
         'secondary': '#EAB816',
+        'blue-1': "#3E447B",
         'blue-2': '#5C68CE',
+        'red-1': '#DF5555'
       },
       fontFamily: {
         'sans': ['Work Sans']

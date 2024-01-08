@@ -36,8 +36,8 @@ export const ExternalDefenseStage: FC<ExternalDefenseStageProps>= ({ onPrevious,
 
   return (
     <>
-      <div className="text-xl text-gray-800 font-bold divide-y divide-gray-300 mt-10 pt-5">
-        Defensa Externa
+      <div className="txt1">
+        Etapa Final: Defensa Externa
       </div>
 
       <form onSubmit={formik.handleSubmit} className="ml-5 mt-5">
@@ -100,7 +100,7 @@ export const ExternalDefenseStage: FC<ExternalDefenseStageProps>= ({ onPrevious,
           <button
             type="button"
             onClick={onPrevious}
-            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md"
+            className="btn2"
           >
             Anterior
           </button>

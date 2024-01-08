@@ -50,22 +50,22 @@ const ProgressTracker = ({ steps, currentStepIndex, status, countdown }) => {
           />
         );
       default:
-        return <div>Etapa desconocida</div>;
+        return <div>Resumen</div>;
     }
   };
 
   return (
     <div className="bg-white m-5 p-5 shadow-md rounded-lg h-full">
       <div className="flex items-center justify-between my-2 mx-5">
-        <h2 className="text-lg font-semibold">Progreso</h2>
+        <h2 className="text-3xl font-semibold">Progreso</h2>
         <div className="flex items-center space-x-4 mx-5">
-          <p className="text-lg font-medium text-blue-700">
-            Estado: <span className="text-red-500">{status}</span>
+          <p className="text-xl font-semibold text-primary">
+            Estado: <span className="text-red-1 font-medium">{status}</span>
           </p>
         </div>
       </div>
-      <div className="flex items-center justify-between m-5 p-5">
-        <div className="relative w-full">
+      <div className="flex items-center justify-center m-5 p-5 w-full">
+        <div className="relative w-4/5">
           <div className="absolute w-full bg-gray-200 rounded-full h-1.5">
             <div
               className="absolute bg-blue-2 h-1.5 rounded-full"
@@ -87,7 +87,7 @@ const ProgressTracker = ({ steps, currentStepIndex, status, countdown }) => {
               }}
             >
               <span
-                className="absolute -translate-x-1/2 -translate-y-1/2 text-xs text-blue-700 my-5"
+                className="absolute -translate-x-1/2 -translate-y-1/2 text-xs text-center text-primary my-5"
                 style={{
                   top: "100%",
                   left: "50%",

@@ -76,8 +76,8 @@ const ProgressTracker = ({ steps, currentStepIndex, status, countdown }) => {
             <div
               key={step}
               className={`absolute -translate-y-1/2 ${
-                index <= currentStage ? "bg-blue-2" : "bg-gray-200"
-              } border-2 border-blue-2 rounded-full`}
+                index <= currentStage ? "bg-blue-2 border-blue-2" : "bg-gray-200 border-gray-200"
+              } border-2  rounded-full`}
               style={{
                 left: `${(index / (steps.length - 1)) * 100}%`,
                 width: "24px",

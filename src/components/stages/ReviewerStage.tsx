@@ -5,7 +5,7 @@ import { getReviewers } from "../../services/reviewersService";
 import { Reviewer } from "../../models/reviewerInterface";
 
 const validationSchema = Yup.object({
-  reviewer: Yup.string().required("* El revisor es obligatorio"),
+  reviewer: Yup.string().required("* Debe seleccionar un revisor"),
 });
 
 interface ReviewerStageProps {

@@ -12,12 +12,7 @@ const validationSchema = Yup.object({
   secretary: Yup.string().required("* Debe seleccionar un secretario"),
   date: Yup.string().required("* Debe seleccionar una fecha"),
 });
-const options = [
-  { value: "0", label: "Seleccione Docente" },
-  { value: "1", label: "Trabajo Dirigo" },
-  { value: "2", label: "Proyecto de Grado" },
-  { value: "3", label: "Tesis" },
-];
+
 
 interface InternalDefenseStageProps {
   onPrevious: () => void;
@@ -32,13 +27,14 @@ export const InternalDefenseStage: FC<InternalDefenseStageProps> = ({
   const [presidents, setPresidents] = useState<President[]>([]);
   const [error, setError] = useState(null);
 
-  const validate = (values) => {
+  /*const validate = (values) => {
+    console.log(values)
     const errors = {};
     if (!values.mode) {
       errors.mode = "Required";
     }
     return errors;
-  };
+  };*/
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,7 +57,7 @@ export const InternalDefenseStage: FC<InternalDefenseStageProps> = ({
       secretary: "",
       date: "",
     },
-    validate,
+    validationSchema,
     onSubmit: (values) => {
       console.log(values);
       onNext();
@@ -71,7 +67,6 @@ export const InternalDefenseStage: FC<InternalDefenseStageProps> = ({
   return (
     <>
       <div className="txt1">Etapa 4: Defensa Interna</div>
-
       <form onSubmit={formik.handleSubmit} className="mx-16 ">
         <div className="flex space-x-4">
           <div className="flex-1 my-5 ">
@@ -93,6 +88,11 @@ export const InternalDefenseStage: FC<InternalDefenseStageProps> = ({
                 </option>
               ))}
             </select>
+            {formik.touched.president && formik.errors.president ? (
+            <div className="text-red-1 text-xs mt-1">
+              {formik.errors.president}
+            </div>
+          ) : null}
             <label htmlFor="secretary" className="txt2">
               2. Seleccione un secretario
             </label>
@@ -103,7 +103,7 @@ export const InternalDefenseStage: FC<InternalDefenseStageProps> = ({
               onChange={formik.handleChange}
               value={formik.values.secretary}
             >
-              <option value="">2. Seleccione un secretario</option>
+              <option value="">Seleccione un secretario</option>
 
               {secretaries.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -111,9 +111,14 @@ export const InternalDefenseStage: FC<InternalDefenseStageProps> = ({
                 </option>
               ))}
             </select>
+            {formik.touched.secretary && formik.errors.secretary ? (
+            <div className="text-red-1 text-xs mt-1">
+              {formik.errors.secretary}
+            </div>
+          ) : null}
           </div>
           <div className="flex-1">
-            <label htmlFor="secretary" className="txt2">
+            <label htmlFor="date" className="txt2">
               3. Seleccione una fecha
             </label>
             <Datepicker
@@ -125,6 +130,11 @@ export const InternalDefenseStage: FC<InternalDefenseStageProps> = ({
               showClearButton={false}
               showTodayButton={false}
             />
+            {formik.touched.date && formik.errors.date ? (
+            <div className="text-red-1 text-xs mt-1">
+              {formik.errors.date}
+            </div>
+          ) : null}
           </div>
         </div>
 

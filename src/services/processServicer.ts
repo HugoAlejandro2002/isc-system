@@ -12,4 +12,14 @@ const getProcess = async () => {
     }
 };
 
-export { getProcess };
+const getStundentById = async (studentId: number) => {
+    try {
+        const response = await axios.get(`${API_URL}graduation/${studentId}`);        
+        return response.data;
+    } catch (error) {
+        console.error('Error al obtener los procesos:', error);
+        throw error;
+    }
+}
+
+export { getProcess, getStundentById };

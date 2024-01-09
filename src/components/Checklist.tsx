@@ -1,16 +1,21 @@
+import { FC } from "react";
 import {
   FaEnvelope,
   FaCalendarCheck,
   FaUserTie,
   FaUserSecret,
-  FaUserShield,
-  FaUserGraduate,
+  // FaUserShield,
+  // FaUserGraduate,
 } from "react-icons/fa";
+import { Seminar } from "../models/studentProcess";
 
-const Checklist = ({ process }) => {
-  const { studentName, titleProject, mode, graduationSteps } = process;
-  const { registrationStage, tutorStage, reviewerStage, internalDefenseStage } =
-    graduationSteps;
+interface CheckListStageProps {
+  process: Seminar;
+}
+
+const Checklist:FC<CheckListStageProps> = ({ process }) => {
+  
+  const { student_name: studentName, project_name: titleProject, modality_name: mode } = process;
   const telegramLink = `https://t.me/+59176517816`;
   return (
     <div className="h-full bg-white rounded-lg shadow-lg p-4 m-4">
@@ -44,9 +49,9 @@ const Checklist = ({ process }) => {
           <h3 className="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
             Seminario de Grado
           </h3>
-          {registrationStage.passed ? (
+          {process.period ? (
             <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
-              Inscripción {registrationStage.date}
+              Inscripción {process.period}
             </time>
           ) : (
             <span>No inscrito aun</span>
@@ -57,11 +62,11 @@ const Checklist = ({ process }) => {
             <FaUserTie className="text-blue-800" />
           </span>
           <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
-            Tutor: {tutorStage.tutorName || " "}
+            Tutor: {process.tutor_name || " "}
           </h3>
-          {tutorStage.passed ? (
+          {process.tutor_approval ? (
             <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
-              Aprobación del Tutor on {tutorStage.date}
+              Aprobación del Tutor el {}
             </time>
           ) : (
             <span>Fase de Tutor no Aprobada</span>
@@ -72,17 +77,17 @@ const Checklist = ({ process }) => {
             <FaUserSecret className="text-blue-800" />
           </span>
           <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
-            Revisor: {reviewerStage.reviewerName || " "}
+            Revisor: {process.reviewer_name || " "}
           </h3>
-          {reviewerStage.passed ? (
+          {process.reviewer_approval ? (
             <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
-              Aprobación del Revisor on {reviewerStage.date}
+              Aprobación del Revisor on {}
             </time>
           ) : (
             <span>Fase de Revisor no Aprobada</span>
           )}
         </li>
-        <li className="mb-10 ms-6">
+        {/* <li className="mb-10 ms-6">
           <span className="absolute flex items-center justify-center w-7 h-7 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
             <FaUserShield className="text-blue-800" />
           </span>
@@ -115,7 +120,7 @@ const Checklist = ({ process }) => {
               Sin defensa Externa
             </span>
           )}
-        </li>
+        </li> */}
       </ol>
     </div>
   );

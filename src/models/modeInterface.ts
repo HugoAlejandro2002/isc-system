@@ -1,4 +1,4 @@
 export interface Modes {
-    value: string;
-    label: string;
+    id: string;
+    name: string;
 }

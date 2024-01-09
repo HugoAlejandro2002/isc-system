@@ -6,13 +6,19 @@ import {
 
 import ProcessInfoPage from './pages/ProcessInfoPage';
 import ErrorPage from "./pages/ErrorPage";
-import { getProcess } from "./services/processServicer";
+import { getProcess, getStundentById } from "./services/processServicer";
 import StudentsPage from "./pages/StudentsPage";
 import LoginPage from "./pages/LoginPage";
 import Layout from "./layout/Layout";
 
 function loader() {
   return getProcess();
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getStudentProcess =({ params }: any) => {
+  const studentId = Number(params.id); 
+  return getStundentById(studentId);
 }
 
 const router = createBrowserRouter([
@@ -30,8 +36,8 @@ const router = createBrowserRouter([
         element: <StudentsPage />,
       },
       {
-        path: '/studentProfile',
-        loader: loader,
+        path: '/studentProfile/:id',
+        loader: getStudentProcess,
         element: <ProcessInfoPage />,
       },
     ]

@@ -1,11 +1,23 @@
-import { useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { InternalDefenseStage } from "./stages/InternalDefenseStage";
 import { MentorStage } from "./stages/MentorStage";
 import { RegistrationStage } from "./stages/RegistrationStage";
 import { ReviewerStage } from "./stages/ReviewerStage";
 import { ExternalDefenseStage } from "./stages/ExternalDefenseStage";
+interface ProgressTrackerProps { 
+  currentStepIndex: number;
+  status: string;
+}
 
-const ProgressTracker = ({ steps, currentStepIndex, status, countdown }) => {
+const steps = [
+  "Seminario de Grado",
+  "Tutor",
+  "Revisor",
+  "Defensa Interna",
+  "Defensa Externa",
+];
+
+const ProgressTracker:FC<ProgressTrackerProps> = ({ currentStepIndex, status }) => {
   const [progressWidth, setProgressWidth] = useState((currentStepIndex / (steps.length - 1)) * 100);
   const [currentStage, setCurrentStage] = useState(currentStepIndex);
 

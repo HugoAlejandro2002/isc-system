@@ -5,6 +5,24 @@
 @tailwind utilities;
 
 .btn {
-  @apply bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md;
+  @apply bg-blue-2 hover:bg-blue-1 text-white font-semibold py-2 px-4 rounded-md shadow shadow-blue-1 hover:shadow-none;
 }
 
+.btn2 {
+  @apply bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg shadow shadow-slate-600 hover:shadow-none;
+}
+.txt1 {
+  @apply text-xl text-blue-950 font-semibold mt-14 ps-6
+}
+
+.txt2 {
+  @apply block text-lg font-medium  text-neutral-800
+}
+
+.checkbox {
+  @apply text-blue-2 focus:ring-blue-2 focus:border-blue-2 cursor-pointer
+}
+
+.select-1 {
+  @apply bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-2 block w-full p-2.5 mt-1
+}

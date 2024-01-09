@@ -1,19 +1,37 @@
 import { useFormik } from "formik";
+import { useEffect, useState } from "react";
+import { Mentor } from "../../models/mentorInterface";
+import * as Yup from "yup";
+import { getMentors } from "../../services/mentorsService";
 
-const tutorOptions = [
-  { value: "tutor1", label: "Tutor 1" },
-  { value: "tutor2", label: "Tutor 2" },
-  // ... más opciones de tutores ...
-];
+const validationSchema = Yup.object({
+  mentor: Yup.string().required("* Debe seleccionar un tutor"),
+});
 
 export const MentorStage = ({ onPrevious, onNext }) => {
+
+  const [mentors, setMentors] = useState<Mentor[]>([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getMentors();
+        setMentors(response);
+      } catch (error) {
+        setError(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const formik = useFormik({
     initialValues: {
-      mode: "",
-      date: "",
       tutorDesignationLetterSubmitted: false,
-      tutor: "",
+      mentor: "",
     },
+    validationSchema,
     onSubmit: (values) => {
       console.log(values);
       onNext();
@@ -22,41 +40,44 @@ export const MentorStage = ({ onPrevious, onNext }) => {
 
   return (
     <>
-      <div className="text-xl text-gray-800 font-bold divide-y divide-gray-300 mt-10 pt-5">
-        Etapa Tutor
-      </div>
-      <form onSubmit={formik.handleSubmit} className="mx-5">
-        <div className="mt-5">
-          <label
-            htmlFor="tutor"
-            className="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
-          >
-            Seleccionar Tutor
+      <div className="txt1">Etapa 2: Seleccionar Tutor</div>
+      <form onSubmit={formik.handleSubmit} className="mx-16">
+        <div className="my-5">
+          <label htmlFor="mentor" className="txt2">
+            Seleccione el tutor del estudiante
           </label>
           <select
-            id="tutor"
-            name="tutor"
+            id="mentor"
+            name="mentor"
             onChange={formik.handleChange}
-            value={formik.values.tutor}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          >
+            value={formik.values.mentor}
+            className={`select-1 ${
+              formik.touched.mentor && formik.errors.mentor
+                ? "border-red-1"
+                : "border-gray-300"
+            }`}          >
             <option value="">Seleccione un Tutor</option>
-            {tutorOptions.map((option) => (
+            {mentors.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>
             ))}
           </select>
+          {formik.touched.mentor && formik.errors.mentor ? (
+            <div className="text-red-1 text-xs mt-1">
+              {formik.errors.mentor}
+            </div>
+          ) : null}
         </div>
 
-        <div className="mt-5">
+        <div className="mt-5 mx-5">
           <label className="inline-flex items-center">
             <input
               type="checkbox"
               name="tutorDesignationLetterSubmitted"
               checked={formik.values.tutorDesignationLetterSubmitted}
               onChange={formik.handleChange}
-              className="form-checkbox"
+              className="checkbox"
             />
             <span className="ml-2 text-gray-700">
               Carta de Designación de Tutor Presentada
@@ -65,17 +86,10 @@ export const MentorStage = ({ onPrevious, onNext }) => {
         </div>
 
         <div className="flex justify-between mt-4">
-          <button
-            type="button"
-            onClick={onPrevious}
-            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-l"
-          >
+          <button type="button" onClick={onPrevious} className="btn2">
             Anterior
           </button>
-          <button
-            type="submit"
-            className="btn"
-          >
+          <button type="submit" className="btn">
             Siguiente
           </button>
         </div>

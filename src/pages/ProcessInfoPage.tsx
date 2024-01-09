@@ -4,7 +4,7 @@ import ProgressTracker from "../components/ProgressTracker";
 import Stage from "../components/stages/Stage";
 
 const steps = [
-  "Seminario Grado",
+  "Seminario de Grado",
   "Tutor",
   "Revisor",
   "Defensa Interna",
@@ -20,7 +20,7 @@ const ProcessInfoPage = () => {
   }, 0);
 
   return (
-    <div className="flex flex-row w-full p-10 h-full bg-sky-50 ">
+    <div className="flex flex-row w-full p-4 h-full bg-[#D9E8F3] ">
       <div className="w-2/3 flex flex-col overflow-auto">
           <ProgressTracker
             steps={steps}

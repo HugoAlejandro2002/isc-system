@@ -19,15 +19,16 @@ export const ReviewerStage: FC<ReviewerStageProps> = ({
   onNext,
 }) => {
   const [reviewers, setReviewers] = useState<Reviewer[]>([]);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string>();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getReviewers();
         setReviewers(response);
-      } catch (error) {
-        setError(error);
+      } catch (err) {
+        console.log(error);
+        setError("error");
       }
     };
 

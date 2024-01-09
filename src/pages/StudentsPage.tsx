@@ -12,6 +12,14 @@ import { useLoaderData } from "react-router-dom";
     { key: "reviewerName", label: "Revisor" },
     { key: "actions", label: "Acciones" },
   ];
+  interface Student {
+    id?: number;
+    student_name: string;
+    tutor_name: string;
+    reviewer_name: string;
+    period: string;
+    modality: string;
+  }
 const StudentsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10; // Define el número de elementos por página
@@ -21,24 +29,21 @@ const StudentsPage = () => {
   const students:any = useLoaderData();
   const { data: tableData } = students;
   useEffect(()=>{
-    const results = tableData.filter(item =>
+    const results = tableData.filter((item: Student) =>
         item.student_name.toLowerCase().includes(search.toLowerCase())
       );
       setFilteredData(results);
-  }, [search])
+  }, [search, tableData])
   
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  
-
   const dropdownStyle = {
-    position: "absolute",
     inset: "auto auto 0px 0px",
     margin: 0,
     transform: "translate3d(522.5px, 3847.5px, 0px)",

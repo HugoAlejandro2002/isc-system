@@ -1,4 +1,5 @@
 import { useFormik } from "formik";
+import { FC } from "react";
 
 const tutorOptions = [
   { value: "tutor1", label: "Tutor 1" },
@@ -6,7 +7,12 @@ const tutorOptions = [
   // ... más opciones de tutores ...
 ];
 
-export const MentorStage = ({ onPrevious, onNext }) => {
+interface MentorStageProps {
+  onPrevious: () => void;
+  onNext: () => void;
+}
+
+export const MentorStage:FC<MentorStageProps> = ({ onPrevious, onNext }) => {
   const formik = useFormik({
     initialValues: {
       mode: "",

@@ -1,22 +1,27 @@
 import { useLoaderData } from "react-router-dom";
 import Checklist from "../components/Checklist";
-import ProgressTracker from "../components/ProgressTracker";
-import Stage from "../components/stages/Stage";
+// import ProgressTracker from "../components/ProgressTracker";
+// import Stage from "../components/stages/Stage";
 
-const steps = [
-  "Seminario Grado",
-  "Tutor",
-  "Revisor",
-  "Defensa Interna",
-  "Defensa Externa",
-];
+// const steps = [
+//   "Seminario Grado",
+//   "Tutor",
+//   "Revisor",
+//   "Defensa Interna",
+//   "Defensa Externa",
+// ];
 
+interface processInterface{
+  data: [];
+  message: string;
+}
 const ProcessInfoPage = () => {
-  const countdown = 22;
-  const { data: process }= useLoaderData();
+  // const countdown = 22;
+  const response = useLoaderData() as processInterface;
+  const {data: process} = response;
   console.log(process);
-  const { graduationSteps, state } = process;
-  const passedCount: number = 0;
+  // const { graduationSteps, state } = process;
+  // const passedCount: number = 0;
 
   return (
     <div className="flex flex-row w-full p-10 h-full bg-sky-50 ">

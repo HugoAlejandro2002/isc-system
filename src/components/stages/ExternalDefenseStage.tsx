@@ -1,33 +1,51 @@
 import { Datepicker } from "flowbite-react";
 import { useFormik } from "formik";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
+import { getMentors } from "../../services/mentorsService";
+import { Mentor } from "../../models/mentorInterface";
+import * as Yup from "yup";
 
-const options = [
-  { value: "0", label: "Seleccione Docente" },
-  { value: "1", label: "Trabajo Dirigo" },
-  { value: "2", label: "Proyecto de Grado" },
-  { value: "3", label: "Tesis" },
-];
+const validationSchema = Yup.object({
+  president: Yup.string().required("* Debe seleccionar un presidente"),
+  secretary: Yup.string().required("* Debe seleccionar un secretario"),
+  date: Yup.string().required("* Debe seleccionar una fecha"),
+});
 
 interface ExternalDefenseStageProps {
   onPrevious: () => void;
   onNext: () => void;
 }
 
-export const ExternalDefenseStage: FC<ExternalDefenseStageProps>= ({ onPrevious, onNext }) => {
-  const validate = (values) => {
-    const errors = {};
-    if (!values.mode) {
-      errors.mode = "Required";
-    }
-    return errors;
-  };
+export const ExternalDefenseStage: FC<ExternalDefenseStageProps> = ({
+  onPrevious,
+  onNext,
+}) => {
+
+  const [secretaries, setSecretaries] = useState<Mentor[]>([]);
+  const [presidents, setPresidents] = useState<Mentor[]>([]);
+  const [, setError] = useState<string | null>(null);
+
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getMentors();
+        setSecretaries(response.data);
+        setPresidents(response.data);
+      } catch (error) {
+        setError("error");
+      }
+    };
+
+    fetchData();
+  }, []);
+  
   const formik = useFormik({
     initialValues: {
       mode: "",
       date: "",
     },
-    validate,
+    validationSchema,
     onSubmit: (values) => {
       console.log(values);
       onNext();
@@ -36,9 +54,7 @@ export const ExternalDefenseStage: FC<ExternalDefenseStageProps>= ({ onPrevious,
 
   return (
     <>
-      <div className="txt1">
-        Etapa Final: Defensa Externa
-      </div>
+      <div className="txt1">Etapa Final: Defensa Externa</div>
 
       <form onSubmit={formik.handleSubmit} className="ml-5 mt-5">
         <div className="flex space-x-4">
@@ -56,9 +72,9 @@ export const ExternalDefenseStage: FC<ExternalDefenseStageProps>= ({ onPrevious,
               onChange={formik.handleChange}
               value={formik.values.mode}
             >
-              {options.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
+              {presidents.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.name}
                 </option>
               ))}
             </select>
@@ -75,9 +91,9 @@ export const ExternalDefenseStage: FC<ExternalDefenseStageProps>= ({ onPrevious,
               onChange={formik.handleChange}
               value={formik.values.mode}
             >
-              {options.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
+              {secretaries.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.name}
                 </option>
               ))}
             </select>
@@ -97,17 +113,10 @@ export const ExternalDefenseStage: FC<ExternalDefenseStageProps>= ({ onPrevious,
         </div>
 
         <div className="flex justify-between">
-          <button
-            type="button"
-            onClick={onPrevious}
-            className="btn2"
-          >
+          <button type="button" onClick={onPrevious} className="btn2">
             Anterior
           </button>
-          <button
-            type="submit"
-            className="btn"
-          >
+          <button type="submit" className="btn">
             Finalizar
           </button>
         </div>

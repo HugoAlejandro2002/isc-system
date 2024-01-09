@@ -1,17 +1,20 @@
 import { FC } from "react";
 import { FaEye } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { Student } from "../models/studentInterface";
 
-// Props Type
+interface tableHeader {
+  key: string;
+  label: string;
+}
 interface TableProps {
-  data: any[]; // Asume una estructura de datos genérica
+  data: Student[];
   pageSize: number;
   currentPage: number;
   onPageChange: (page: number) => void;
-  tableHeaders: any[];
+  tableHeaders: tableHeader[];
 }
 
-// El componente Table
 const Table: FC<TableProps> = ({
   data,
   pageSize,
@@ -19,14 +22,12 @@ const Table: FC<TableProps> = ({
   onPageChange,
   tableHeaders,
 }) => {
-  // Calcular el rango de datos para la página actual
   const startIndex = (currentPage - 1) * pageSize;
   const paginatedData = data.slice(startIndex, startIndex + pageSize);
   const navigate = useNavigate();
-  const goStudentProcess = () => {
-    console.log('asdasd')
-    navigate("/studentProfile");
-  }
+  const goStudentProcess = (studentId: number) => {
+    navigate(`/studentProfile/${studentId}`);
+  };
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg m-10">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -34,20 +35,7 @@ const Table: FC<TableProps> = ({
           <tr>
             {tableHeaders.map((header) => (
               <th key={header.key} scope="col" className="px-6 py-3">
-                {header.isCheckbox ? (
-                  <div className="flex items-center">
-                    <input
-                      id="checkbox-all-search"
-                      type="checkbox"
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                    />
-                    <label htmlFor="checkbox-all-search" className="sr-only">
-                      checkbox
-                    </label>
-                  </div>
-                ) : (
-                  header.label
-                )}
+                header.label
               </th>
             ))}
           </tr>
@@ -62,12 +50,16 @@ const Table: FC<TableProps> = ({
                 scope="row"
                 className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
               >
-                {item.studentName}
+                {item.student_name}
               </th>
-              <td className="px-6 py-4">{item.tutorName}</td>
-              <td className="px-6 py-4">{item.reviewerName}</td>
+              <td className="px-6 py-4">{item.period}</td>
+              <td className="px-6 py-4">{item.tutor_name}</td>
+              <td className="px-6 py-4">{item.reviewer_name}</td>
               <td className="px-6 py-4">
-                <button onClick={goStudentProcess} className="text-gray-600 hover:text-gray-900">
+                <button
+                  onClick={() => goStudentProcess(item.id)}
+                  className="text-gray-600 hover:text-gray-900"
+                >
                   <FaEye />
                 </button>
               </td>

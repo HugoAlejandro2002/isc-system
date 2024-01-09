@@ -17,14 +17,16 @@ interface RegistrationStageProps {
 
 export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext }) => {
   const [modes, setModes] = useState<Modes[]>([]);
-  const [error, setError] = useState(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [, setError] = useState<any | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getModes();
-        setModes(response);
+        setModes(response.data);
       } catch (error) {
+        console.log(error)
         setError(error);
       }
     };
@@ -55,16 +57,16 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext }) => {
             </label>
             <div className="flex flex-col space-y-2 mt-2 mx-2">
               {modes.map((option) => (
-                <label key={option.value} className="flex items-center">
+                <label key={option.id} className="flex items-center">
                   <input
                     type="radio"
                     name="mode"
-                    value={option.value}
+                    value={option.id}
                     onChange={formik.handleChange}
                     className="w-4 h-4 text-secondary bg-gray-100 border-gray-300 focus:ring-secondary dark:focus:ring-secondary"
                   />
                   <span className="ml-2 text-md font-normal text-neutral-600">
-                    {option.label}
+                    {option.name}
                   </span>
                 </label>
               ))}

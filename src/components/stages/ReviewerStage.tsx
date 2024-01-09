@@ -1,8 +1,8 @@
 import { useFormik } from "formik";
 import { FC, useEffect, useState } from "react";
 import * as Yup from "yup";
-import { getReviewers } from "../../services/reviewersService";
-import { Reviewer } from "../../models/reviewerInterface";
+import { getMentors } from "../../services/mentorsService";
+import { Mentor } from "../../models/mentorInterface";
 
 const validationSchema = Yup.object({
   reviewer: Yup.string().required("* El revisor es obligatorio"),
@@ -17,16 +17,16 @@ export const ReviewerStage: FC<ReviewerStageProps> = ({
   onPrevious,
   onNext,
 }) => {
-  const [reviewers, setReviewers] = useState<Reviewer[]>([]);
-  const [error, setError] = useState(null);
+  const [reviewers, setReviewers] = useState<Mentor[]>([]);
+  const [, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getReviewers();
-        setReviewers(response);
+        const response = await getMentors();
+        setReviewers(response.data);
       } catch (error) {
-        setError(error);
+        setError("Error getting mentors");
       }
     };
 
@@ -69,8 +69,8 @@ export const ReviewerStage: FC<ReviewerStageProps> = ({
           >
             <option value="">Seleccione un Revisor</option>
             {reviewers.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
+              <option key={option.id} value={option.id}>
+                {option.name}
               </option>
             ))}
           </select>

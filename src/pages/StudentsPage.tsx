@@ -1,70 +1,46 @@
-import { useEffect, useState } from "react";
-
+import { ChangeEvent, useEffect, useState } from "react";
+import { useLoaderData } from "react-router-dom";
 
 import Table from "../components/Table";
 import { FaSearch } from "react-icons/fa";
-const tableData = [
-    { 
-      id: 1,
-      studentName: "Juan Pérez",
-      tutorName: "Dr. Ana López",
-      reviewerName: "MSc. Carlos Gómez",
-      actions: "Acciones"
-    },
-    { 
-      id: 2,
-      studentName: "María García",
-      tutorName: "Dr. Manuel Torres",
-      reviewerName: "Dra. Lucía Hernández",
-      actions: "Acciones"
-    },
-    { 
-      id: 3,
-      studentName: "Carlos Díaz",
-      tutorName: "Dra. Susana Rivera",
-      reviewerName: "MSc. José Fernández",
-      actions: "Acciones"
-    },
-    { 
-      id: 4,
-      studentName: "Ana Ramírez",
-      tutorName: "Dr. Jorge Martínez",
-      reviewerName: "Dra. Laura Jiménez",
-      actions: "Acciones"
-    },
-  ];
+import { Student } from "../models/studentInterface";
 
-  const tableHeaders = [
-    { key: "studentName", label: "Estudiante" },
-    { key: "tutorName", label: "Tutor" },
-    { key: "reviewerName", label: "Revisor" },
-    { key: "actions", label: "Acciones" },
-  ];
+const tableHeaders = [
+  { key: "studentName", label: "Estudiante" },
+  { key: "period", label: "Periodo" },
+  { key: "tutorName", label: "Tutor" },
+  { key: "reviewerName", label: "Revisor" },
+  { key: "actions", label: "Acciones" },
+];
+
 const StudentsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10; // Define el número de elementos por página
-  const [filteredData, setFilteredData] = useState([]);
-  const [search, setSearch] = useState('');
+  const pageSize = 10;
+  const [filteredData, setFilteredData] = useState<Student[] | []>([]);
+  const [search, setSearch] = useState("");
+  const studentsResponse = useLoaderData() as {
+    data: Student[];
+    message: string;
+  };
+  const { data: students } = studentsResponse;
 
-  useEffect(()=>{
-    const results = tableData.filter(item =>
-        item.studentName.toLowerCase().includes(search.toLowerCase())
-      );
-      setFilteredData(results);
-  }, [search])
-  
-  const handleSearchChange = (e) => {
+  useEffect(() => {
+    const results = students.filter((item: Student) =>
+      item.student_name.toLowerCase().includes(search.toLowerCase())
+    );
+    setFilteredData(results);
+  }, [search, students]);
+
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  
-
   const dropdownStyle = {
-    position: "absolute",
+    // position: "absolute",
     inset: "auto auto 0px 0px",
     margin: 0,
     transform: "translate3d(522.5px, 3847.5px, 0px)",
@@ -212,7 +188,7 @@ const StudentsPage = () => {
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 rtl:inset-r-0 rtl:right-0 flex items-center ps-3 pointer-events-none">
-            <FaSearch className="w-5 h-5 text-gray-500 dark:text-gray-400"/>
+            <FaSearch className="w-5 h-5 text-gray-500 dark:text-gray-400" />
           </div>
           <input
             type="text"

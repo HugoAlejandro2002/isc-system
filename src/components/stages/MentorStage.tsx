@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Mentor } from "../../models/mentorInterface";
 import * as Yup from "yup";
 import { getMentors } from "../../services/mentorsService";
@@ -8,18 +8,23 @@ const validationSchema = Yup.object({
   mentor: Yup.string().required("* Debe seleccionar un tutor"),
 });
 
-export const MentorStage = ({ onPrevious, onNext }) => {
+interface InternalDefenseStageProps {
+  onPrevious: () => void;
+  onNext: () => void;
+}
+
+export const MentorStage:FC<InternalDefenseStageProps> = ({ onPrevious, onNext }) => {
 
   const [mentors, setMentors] = useState<Mentor[]>([]);
-  const [error, setError] = useState(null);
+  const [, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getMentors();
-        setMentors(response);
+        setMentors(response.data);
       } catch (error) {
-        setError(error);
+        setError("Error getting mentors");
       }
     };
 
@@ -58,8 +63,8 @@ export const MentorStage = ({ onPrevious, onNext }) => {
             }`}          >
             <option value="">Seleccione un Tutor</option>
             {mentors.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
+              <option key={option.id} value={option.id}>
+                {`${option.name} ${option.lastName}`}
               </option>
             ))}
           </select>

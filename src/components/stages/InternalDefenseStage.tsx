@@ -2,22 +2,14 @@ import { Datepicker } from "flowbite-react";
 import { useFormik } from "formik";
 import { FC, useEffect, useState } from "react";
 import * as Yup from "yup";
-import { Secretary } from "../../models/secretaryInterface";
-import { President } from "../../models/presidentInterface";
-import { getSecretaries } from "../../services/secretariesService";
-import { getPresidents } from "../../services/presidentsService";
+import { getMentors } from "../../services/mentorsService";
+import { Mentor } from "../../models/mentorInterface";
 
 const validationSchema = Yup.object({
   president: Yup.string().required("* Debe seleccionar un presidente"),
   secretary: Yup.string().required("* Debe seleccionar un secretario"),
   date: Yup.string().required("* Debe seleccionar una fecha"),
 });
-const options = [
-  { value: "0", label: "Seleccione Docente" },
-  { value: "1", label: "Trabajo Dirigo" },
-  { value: "2", label: "Proyecto de Grado" },
-  { value: "3", label: "Tesis" },
-];
 
 interface InternalDefenseStageProps {
   onPrevious: () => void;
@@ -28,27 +20,18 @@ export const InternalDefenseStage: FC<InternalDefenseStageProps> = ({
   onPrevious,
   onNext,
 }) => {
-  const [secretaries, setSecretaries] = useState<Secretary[]>([]);
-  const [presidents, setPresidents] = useState<President[]>([]);
-  const [error, setError] = useState(null);
-
-  const validate = (values) => {
-    const errors = {};
-    if (!values.mode) {
-      errors.mode = "Required";
-    }
-    return errors;
-  };
+  const [secretaries, setSecretaries] = useState<Mentor[]>([]);
+  const [presidents, setPresidents] = useState<Mentor[]>([]);
+  const [, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const responseS = await getSecretaries();
-        const responseP = await getPresidents();
-        setSecretaries(responseS);
-        setPresidents(responseP);
+        const response = await getMentors();
+        setSecretaries(response.data);
+        setPresidents(response.data);
       } catch (error) {
-        setError(error);
+        setError("error");
       }
     };
 
@@ -61,7 +44,7 @@ export const InternalDefenseStage: FC<InternalDefenseStageProps> = ({
       secretary: "",
       date: "",
     },
-    validate,
+    validationSchema,
     onSubmit: (values) => {
       console.log(values);
       onNext();
@@ -88,8 +71,8 @@ export const InternalDefenseStage: FC<InternalDefenseStageProps> = ({
               <option value="">Seleccione un Presidente</option>
 
               {presidents.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
+                <option key={option.id} value={option.id}>
+                  {option.name}
                 </option>
               ))}
             </select>
@@ -106,8 +89,8 @@ export const InternalDefenseStage: FC<InternalDefenseStageProps> = ({
               <option value="">2. Seleccione un secretario</option>
 
               {secretaries.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
+                <option key={option.id} value={option.id}>
+                  {option.name}
                 </option>
               ))}
             </select>

@@ -37,6 +37,7 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext }) => {
       mode: "",
       date: "",
     },
+
     validationSchema,
     onSubmit: (values) => {
       console.log(values);
@@ -48,14 +49,12 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext }) => {
     <>
       <div className="txt1">Etapa 1: Seminario de Grado</div>
       <form onSubmit={formik.handleSubmit} className="mt-5 mx-16">
-        <div className="flex flex-row space-x-4">
+        <div className="flex flex-col">
           <div className="flex-1">
-            <label className="txt2">
-              1. Seleccione la modalidad
-            </label>
+            <label className="txt2">1. Seleccione la modalidad</label>
             <div className="flex flex-col space-y-2 mt-2 mx-2">
               {modes.map((option) => (
-                <label key={option.value} className="flex items-center">
+                <label id={option.value} key={option.value} className="flex items-center">
                   <input
                     type="radio"
                     name="mode"
@@ -63,9 +62,9 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext }) => {
                     onChange={formik.handleChange}
                     className="w-4 h-4 text-secondary bg-gray-100 border-gray-300 focus:ring-secondary dark:focus:ring-secondary"
                   />
-                  <span className="ml-2 text-md font-normal text-neutral-600">
+                  <label id={option.value} key={option.value} className="ml-2 text-md font-normal text-neutral-600">
                     {option.label}
-                  </span>
+                  </label>
                 </label>
               ))}
             </div>
@@ -75,20 +74,16 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext }) => {
               </div>
             ) : null}
           </div>
-          <div className="flex-1">
-            <label className="txt2">
+          <div className="flex-1 mt-5">
+            <label className="txt2 mb-3">
               2. Seleccione la fecha de inscripción
             </label>
-            <Datepicker
-              onSelectedDateChanged={(date) => {
-                formik.setFieldValue("date", date);
-              }}
-              language="es"
-              inline
-              showClearButton={false}
-              showTodayButton={false}
-              autoHide={true}
-            />
+            <input
+              type="date"
+              onChange={formik.handleChange}
+              id="date"
+              name="date"
+              className="select-1 border-gray-300 "/>
             {formik.touched.date && formik.errors.date ? (
               <div className="text-red-1 text-xs font-medium mt-1">
                 {formik.errors.date}
@@ -98,7 +93,7 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext }) => {
         </div>
 
         <div className="flex justify-end pt-5">
-          <button type="submit" className="btn">
+          <button type="submit" className="btn bottom-0">
             Siguiente
           </button>
         </div>

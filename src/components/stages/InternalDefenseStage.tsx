@@ -68,14 +68,14 @@ export const InternalDefenseStage: FC<InternalDefenseStageProps> = ({
     <>
       <div className="txt1">Etapa 4: Defensa Interna</div>
       <form onSubmit={formik.handleSubmit} className="mx-16 ">
-        <div className="flex space-x-4">
+        <div className="flex flex-col">
           <div className="flex-1 my-5 ">
             <label htmlFor="president" className="txt2">
               1. Seleccione un presidente
             </label>
             <select
               id="president"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-4"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-4 mt-1"
               name="president"
               onChange={formik.handleChange}
               value={formik.values.president}
@@ -98,7 +98,7 @@ export const InternalDefenseStage: FC<InternalDefenseStageProps> = ({
             </label>
             <select
               id="secretary"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               name="secretary"
               onChange={formik.handleChange}
               value={formik.values.secretary}
@@ -121,15 +121,12 @@ export const InternalDefenseStage: FC<InternalDefenseStageProps> = ({
             <label htmlFor="date" className="txt2">
               3. Seleccione una fecha
             </label>
-            <Datepicker
-              onSelectedDateChanged={(date) => {
-                formik.setFieldValue("date", date);
-              }}
-              language="es"
-              inline
-              showClearButton={false}
-              showTodayButton={false}
-            />
+            <input
+              type="date"
+              onChange={formik.handleChange}
+              id="date"
+              name="date"
+              className="select-1 border-gray-300"/>
             {formik.touched.date && formik.errors.date ? (
             <div className="text-red-1 text-xs mt-1">
               {formik.errors.date}
@@ -138,7 +135,7 @@ export const InternalDefenseStage: FC<InternalDefenseStageProps> = ({
           </div>
         </div>
 
-        <div className="flex justify-between">
+        <div className="flex justify-between pt-5">
           <button type="button" onClick={onPrevious} className="btn2">
             Anterior
           </button>

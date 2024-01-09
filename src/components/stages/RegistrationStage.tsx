@@ -17,15 +17,16 @@ interface RegistrationStageProps {
 
 export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext }) => {
   const [modes, setModes] = useState<Modes[]>([]);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string>();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getModes();
         setModes(response);
-      } catch (error) {
-        setError(error);
+      } catch (err) {
+        console.log(error);
+        setError("Error");
       }
     };
 

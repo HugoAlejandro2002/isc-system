@@ -3,68 +3,47 @@ import { useEffect, useState } from "react";
 
 import Table from "../components/Table";
 import { FaSearch } from "react-icons/fa";
-const tableData = [
-    { 
-      id: 1,
-      studentName: "Juan Pérez",
-      tutorName: "Dr. Ana López",
-      reviewerName: "MSc. Carlos Gómez",
-      actions: "Acciones"
-    },
-    { 
-      id: 2,
-      studentName: "María García",
-      tutorName: "Dr. Manuel Torres",
-      reviewerName: "Dra. Lucía Hernández",
-      actions: "Acciones"
-    },
-    { 
-      id: 3,
-      studentName: "Carlos Díaz",
-      tutorName: "Dra. Susana Rivera",
-      reviewerName: "MSc. José Fernández",
-      actions: "Acciones"
-    },
-    { 
-      id: 4,
-      studentName: "Ana Ramírez",
-      tutorName: "Dr. Jorge Martínez",
-      reviewerName: "Dra. Laura Jiménez",
-      actions: "Acciones"
-    },
-  ];
+import { useLoaderData } from "react-router-dom";
 
   const tableHeaders = [
     { key: "studentName", label: "Estudiante" },
+    { key: "period", label: "Periodo" },
     { key: "tutorName", label: "Tutor" },
     { key: "reviewerName", label: "Revisor" },
     { key: "actions", label: "Acciones" },
   ];
+  interface Student {
+    id?: number;
+    student_name: string;
+    tutor_name: string;
+    reviewer_name: string;
+    period: string;
+    modality: string;
+  }
 const StudentsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10; // Define el número de elementos por página
   const [filteredData, setFilteredData] = useState([]);
   const [search, setSearch] = useState('');
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const students:any = useLoaderData();
+  const { data: tableData } = students;
   useEffect(()=>{
-    const results = tableData.filter(item =>
-        item.studentName.toLowerCase().includes(search.toLowerCase())
+    const results = tableData.filter((item: Student) =>
+        item.student_name.toLowerCase().includes(search.toLowerCase())
       );
       setFilteredData(results);
-  }, [search])
+  }, [search, tableData])
   
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  
-
   const dropdownStyle = {
-    position: "absolute",
     inset: "auto auto 0px 0px",
     margin: 0,
     transform: "translate3d(522.5px, 3847.5px, 0px)",

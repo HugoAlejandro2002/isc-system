@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import LogoUPB from '../assets/Logo-UPB.png';
 import { useNavigate } from "react-router-dom";
 

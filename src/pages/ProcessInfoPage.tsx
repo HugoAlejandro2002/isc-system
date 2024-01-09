@@ -1,7 +1,6 @@
 import { useLoaderData } from "react-router-dom";
 import Checklist from "../components/Checklist";
 import ProgressTracker from "../components/ProgressTracker";
-import Stage from "../components/stages/Stage";
 
 const steps = [
   "Seminario de Grado",

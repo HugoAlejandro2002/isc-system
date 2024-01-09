@@ -23,7 +23,7 @@ const Checklist = ({ process }) => {
 
       <div className="flex space-x-4 my-4">
         <a href={telegramLink} target="_blank" rel="noopener noreferrer">
-          <button className="flex items-center justify-center px-4 py-2 bg-blue-500 text-white rounded-md">
+          <button className="btn flex flex-row items-center">
             <FaEnvelope className="mr-2" /> Enviar Mensaje
           </button>
         </a>

@@ -3,14 +3,6 @@ import Checklist from "../components/Checklist";
 // import ProgressTracker from "../components/ProgressTracker";
 // import Stage from "../components/stages/Stage";
 
-// const steps = [
-//   "Seminario Grado",
-//   "Tutor",
-//   "Revisor",
-//   "Defensa Interna",
-//   "Defensa Externa",
-// ];
-
 interface processInterface{
   data: [];
   message: string;
@@ -24,7 +16,7 @@ const ProcessInfoPage = () => {
   // const passedCount: number = 0;
 
   return (
-    <div className="flex flex-row w-full p-10 h-full bg-sky-50 ">
+    <div className="flex flex-row w-full p-4 h-full bg-[#D9E8F3] ">
       <div className="w-2/3 flex flex-col overflow-auto">
           {/* <ProgressTracker
             steps={steps}

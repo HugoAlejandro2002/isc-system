@@ -35,7 +35,7 @@ const Table: FC<TableProps> = ({
           <tr>
             {tableHeaders.map((header) => (
               <th key={header.key} scope="col" className="px-6 py-3">
-                header.label
+                {header.label}
               </th>
             ))}
           </tr>

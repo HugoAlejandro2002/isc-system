@@ -3,21 +3,25 @@ import Navbar from "./Navbar";
 
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
+import { useState } from "react";
 
 const Layout = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
-    <div className="flex flex-col w-full min-h-screen">
-      <Navbar />
-      <div className="flex flex-row w-full">
-        <div className="flex w-1/6">
-          <Sidebar />
+    <>
+      <div className="flex flex-col h-screen">
+        <Navbar
+          isSidebarOpen={isSidebarOpen}
+          setIsSidebarOpen={setIsSidebarOpen}
+        />
+        <div className="flex flex-1 overflow-hidden">
+          <Sidebar isSidebarOpen={isSidebarOpen} />
+          <main className={`flex-1 bg-[#D9E8F3] mt-14 ${isSidebarOpen || "lg:ml-64"}`}>
+            <Outlet />
+          </main>
         </div>
-        <main className="flex flex-col w-full h-full overflow-auto">
-          {" "}
-          <Outlet />
-        </main>
       </div>
-    </div>
+    </>
   );
 };
 

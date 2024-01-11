@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { authenticateUser } from "../services/authService";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { ErrorMessage } from "../components/common/ErrorMessage";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -21,18 +23,22 @@ const LoginPage = () => {
         .min(6, "Debe tener al menos 6 caracteres")
         .required("Requerido"),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async (values,  { setSubmitting }) => {
+      setError("");
       setIsLoading(true);
-      const isAuthenticated = await authenticateUser(
-        values.email,
-        values.password
-      );
-      if (isAuthenticated) {
-        navigate("/home");
-      } else {
-        alert("Credenciales incorrectas");
+      try {
+        const isAuthenticated = await authenticateUser(values.email, values.password);
+        if (isAuthenticated.data) {
+          navigate("/home");
+        } else {
+          setError("Credenciales incorrectas");
+        }
+      } catch (e) {
+        setError("Credenciales incorrectas");
+      } finally {
+        setIsLoading(false);
+        setSubmitting(false);
       }
-      setIsLoading(false);
     },
   });
 
@@ -53,7 +59,7 @@ const LoginPage = () => {
             value={formik.values.email}
           />
           {formik.touched.email && formik.errors.email ? (
-            <div>{formik.errors.email}</div>
+             <ErrorMessage message={formik.errors.email}/>
           ) : null}
           <input
             className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-4"
@@ -65,12 +71,14 @@ const LoginPage = () => {
             value={formik.values.password}
           />
           {formik.touched.password && formik.errors.password ? (
-            <div>{formik.errors.password}</div>
+            <ErrorMessage message={formik.errors.password}/>
           ) : null}
+          {error && <div className="text-red-500">{error}</div>}
           <div className="text-center md:text-center">
             <button
               className="mt-4 bg-primary hover:bg-blue-700 px-10 py-3 text-white uppercase rounded text-sm md:text-base tracking-wider"
               type="submit"
+              disabled={formik.isSubmitting || isLoading}
             >
               {isLoading ? "Cargando..." : "Login"}
             </button>

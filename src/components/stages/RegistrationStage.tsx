@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from "react";
-import { Datepicker } from "flowbite-react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import { Modes } from "../../models/modeInterface";
 import { getModes } from "../../services/modesService";
+import { Seminar } from "../../models/studentProcess";
 
 const validationSchema = Yup.object({
   mode: Yup.string().required("* La modalidad es obligatoria"),
@@ -13,9 +13,34 @@ const validationSchema = Yup.object({
 
 interface RegistrationStageProps {
   onNext: () => void;
+  studentProcess: Seminar;
 }
 
-export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext }) => {
+const periods = [
+  {
+    id: 1,
+    value: "Primero 2023"
+  },
+  {
+    id: 2,
+    value: "Segundo 2023"
+  },
+  {
+    id: 3,
+    value: "Primero 2024"
+  },
+  {
+    id: 4,
+    value: "Segundo 2024"
+  }
+]
+
+const getIdFromValue = (value:string) => {
+  const period = periods.find(period => period.value === value);
+  return period ? period.id : "";
+};
+
+export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext, studentProcess }) => {
   const [modes, setModes] = useState<Modes[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [, setError] = useState<any | null>(null);
@@ -25,6 +50,7 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext }) => {
       try {
         const response = await getModes();
         setModes(response.data);
+
       } catch (error) {
         console.log(error)
         setError(error);
@@ -36,8 +62,8 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext }) => {
 
   const formik = useFormik({
     initialValues: {
-      mode: "",
-      date: "",
+      mode: Number(studentProcess.modality_id),
+      date: getIdFromValue(studentProcess.period),
     },
     validationSchema,
     onSubmit: (values) => {
@@ -62,7 +88,9 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext }) => {
                     type="radio"
                     name="mode"
                     value={option.id}
+                    disabled
                     onChange={formik.handleChange}
+                    checked={formik.values.mode === option.id}
                     className="w-4 h-4 text-secondary bg-gray-100 border-gray-300 focus:ring-secondary dark:focus:ring-secondary"
                   />
                   <span className="ml-2 text-md font-normal text-neutral-600">
@@ -79,18 +107,26 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext }) => {
           </div>
           <div className="flex-1">
             <label className="txt2">
-              2. Seleccione la fecha de inscripción
+              2. Seleccione periodo de inscripción
             </label>
-            <Datepicker
-              onSelectedDateChanged={(date) => {
-                formik.setFieldValue("date", date);
-              }}
-              language="es"
-              inline
-              showClearButton={false}
-              showTodayButton={false}
-              autoHide={true}
-            />
+            <select
+              id="date"
+              name="date"
+              onChange={formik.handleChange}
+              value={formik.values.date}
+              disabled
+              className={`select-1 ${
+                formik.touched.date && formik.errors.date
+                  ? "border-red-1"
+                  : "border-gray-300"
+              }`}          >
+              <option value="">Seleccione un Tutor</option>
+              {periods.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.value}
+                </option>
+              ))}
+            </select>
             {formik.touched.date && formik.errors.date ? (
               <div className="text-red-1 text-xs font-medium mt-1">
                 {formik.errors.date}

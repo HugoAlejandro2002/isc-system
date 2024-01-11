@@ -4,9 +4,11 @@ import { MentorStage } from "./stages/MentorStage";
 import { RegistrationStage } from "./stages/RegistrationStage";
 import { ReviewerStage } from "./stages/ReviewerStage";
 import { ExternalDefenseStage } from "./stages/ExternalDefenseStage";
+import { Seminar } from "../models/studentProcess";
 interface ProgressTrackerProps { 
   currentStepIndex: number;
   status: string;
+  studentProcess: Seminar;
 }
 
 const steps = [
@@ -17,7 +19,7 @@ const steps = [
   "Defensa Externa",
 ];
 
-const ProgressTracker:FC<ProgressTrackerProps> = ({ currentStepIndex, status }) => {
+const ProgressTracker:FC<ProgressTrackerProps> = ({ currentStepIndex, status, studentProcess }) => {
   const [progressWidth, setProgressWidth] = useState((currentStepIndex / (steps.length - 1)) * 100);
   const [currentStage, setCurrentStage] = useState(currentStepIndex);
 
@@ -35,7 +37,7 @@ const ProgressTracker:FC<ProgressTrackerProps> = ({ currentStepIndex, status }) 
   const renderStage = () => {
     switch (currentStage) {
       case 0:
-        return <RegistrationStage onNext={goToNextStage} />;
+        return <RegistrationStage onNext={goToNextStage} studentProcess={studentProcess}/>;
       case 1:
         return (
           <MentorStage onNext={goToNextStage} onPrevious={goToPreviousStage} />

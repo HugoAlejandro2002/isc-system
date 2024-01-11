@@ -13,7 +13,8 @@ const ProcessInfoPage = () => {
       <div className="w-2/3 flex flex-col overflow-auto">
         <ProgressTracker
           currentStepIndex={stageProcess}
-          status={"Revisor"}          
+          status={"Revisor"}
+          studentProcess={data}      
         />
       </div>
       <div className="w-1/3 flex flex-col">

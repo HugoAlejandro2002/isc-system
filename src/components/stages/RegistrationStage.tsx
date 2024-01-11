@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { Modes } from "../../models/modeInterface";
 import { getModes } from "../../services/modesService";
 import { Seminar } from "../../models/studentProcess";
+import { Modal } from "../common/Modal";
 
 const validationSchema = Yup.object({
   mode: Yup.string().required("* La modalidad es obligatoria"),
@@ -19,29 +20,33 @@ interface RegistrationStageProps {
 const periods = [
   {
     id: 1,
-    value: "Primero 2023"
+    value: "Primero 2023",
   },
   {
     id: 2,
-    value: "Segundo 2023"
+    value: "Segundo 2023",
   },
   {
     id: 3,
-    value: "Primero 2024"
+    value: "Primero 2024",
   },
   {
     id: 4,
-    value: "Segundo 2024"
-  }
-]
+    value: "Segundo 2024",
+  },
+];
 
-const getIdFromValue = (value:string) => {
-  const period = periods.find(period => period.value === value);
+const getIdFromValue = (value: string) => {
+  const period = periods.find((period) => period.value === value);
   return period ? period.id : "";
 };
 
-export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext, studentProcess }) => {
+export const RegistrationStage: FC<RegistrationStageProps> = ({
+  onNext,
+  studentProcess,
+}) => {
   const [modes, setModes] = useState<Modes[]>([]);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [, setError] = useState<any | null>(null);
 
@@ -50,9 +55,8 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext, studentP
       try {
         const response = await getModes();
         setModes(response.data);
-
       } catch (error) {
-        console.log(error)
+        console.log(error);
         setError(error);
       }
     };
@@ -78,9 +82,7 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext, studentP
       <form onSubmit={formik.handleSubmit} className="mt-5 mx-16">
         <div className="flex flex-row space-x-4">
           <div className="flex-1">
-            <label className="txt2">
-              1. Seleccione la modalidad
-            </label>
+            <label className="txt2">1. Seleccione la modalidad</label>
             <div className="flex flex-col space-y-2 mt-2 mx-2">
               {modes.map((option) => (
                 <label key={option.id} className="flex items-center">
@@ -106,9 +108,7 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext, studentP
             ) : null}
           </div>
           <div className="flex-1">
-            <label className="txt2">
-              2. Seleccione periodo de inscripción
-            </label>
+            <label className="txt2">2. Seleccione periodo de inscripción</label>
             <select
               id="date"
               name="date"
@@ -119,7 +119,8 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext, studentP
                 formik.touched.date && formik.errors.date
                   ? "border-red-1"
                   : "border-gray-300"
-              }`}          >
+              }`}
+            >
               <option value="">Seleccione un Tutor</option>
               {periods.map((option) => (
                 <option key={option.id} value={option.id}>
@@ -141,6 +142,7 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({ onNext, studentP
           </button>
         </div>
       </form>
+      <Modal isVisible={isVisible} setIsVisible={setIsVisible}/>
     </>
   );
 };

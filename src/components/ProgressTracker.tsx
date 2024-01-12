@@ -5,6 +5,7 @@ import { RegistrationStage } from "./stages/RegistrationStage";
 import { ReviewerStage } from "./stages/ReviewerStage";
 import { ExternalDefenseStage } from "./stages/ExternalDefenseStage";
 import { Seminar } from "../models/studentProcess";
+import SpinModal from "./common/SpinModal";
 interface ProgressTrackerProps { 
   currentStepIndex: number;
   status: string;
@@ -64,7 +65,7 @@ const ProgressTracker:FC<ProgressTrackerProps> = ({ currentStepIndex, status, st
           />
         );
       default:
-        return <div>Resumen</div>;
+        return <SpinModal/>;
     }
   };
 

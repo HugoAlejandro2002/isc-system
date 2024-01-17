@@ -5,6 +5,7 @@ import { authenticateUser } from "../services/authService";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ErrorMessage } from "../components/common/ErrorMessage";
+import SpinModal from "../components/common/SpinModal";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -43,7 +44,8 @@ const LoginPage = () => {
   });
 
   return (
-    <section className="h-screen flex flex-col md:flex-row justify-center space-y-10 md:space-y-0 md:space-x-16 items-center my-2 mx-5 md:mx-0 md:my-0">
+    isLoading ? <SpinModal/> :
+    <section className="h-screen flex flex-col md:flex-row justify-center space-y-10 md:space-y-0 md:space-x-16 items-center my-2 mx-5 md:mx-0 md:my-0 ">
       <div className="md:w-1/3 max-w-sm mr-10">
         <img src={LogoUPB} alt="UPB image" />
       </div>

@@ -4,6 +4,8 @@ import { FC, useEffect, useState } from "react";
 import { getMentors } from "../../services/mentorsService";
 import { Mentor } from "../../models/mentorInterface";
 import * as Yup from "yup";
+import ConfirmModal from "../common/ConfirmModal";
+import { steps } from "../../data/steps";
 
 const validationSchema = Yup.object({
   president: Yup.string().required("* Debe seleccionar un presidente"),
@@ -24,6 +26,7 @@ export const ExternalDefenseStage: FC<ExternalDefenseStageProps> = ({
   const [secretaries, setSecretaries] = useState<Mentor[]>([]);
   const [presidents, setPresidents] = useState<Mentor[]>([]);
   const [, setError] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   
   useEffect(() => {
@@ -48,7 +51,8 @@ export const ExternalDefenseStage: FC<ExternalDefenseStageProps> = ({
     validationSchema,
     onSubmit: (values) => {
       console.log(values);
-      onNext();
+      setShowModal(true);
+      //onNext();
     },
   });
 
@@ -121,6 +125,10 @@ export const ExternalDefenseStage: FC<ExternalDefenseStageProps> = ({
           </button>
         </div>
       </form>
+      {showModal && 
+            <ConfirmModal step={steps[4]} nextStep="Resumen" setShowModal={setShowModal} onNext={onNext}/>
+
+      }
     </>
   );
 };

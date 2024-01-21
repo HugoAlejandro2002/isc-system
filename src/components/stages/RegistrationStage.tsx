@@ -6,6 +6,8 @@ import { Modes } from "../../models/modeInterface";
 import { getModes } from "../../services/modesService";
 import { Seminar } from "../../models/studentProcess";
 import { Modal } from "../common/Modal";
+import ConfirmModal from "../common/ConfirmModal";
+import { steps } from "../../data/steps";
 
 const validationSchema = Yup.object({
   mode: Yup.string().required("* La modalidad es obligatoria"),
@@ -49,6 +51,7 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({
   const [isVisible, setIsVisible] = useState<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [, setError] = useState<any | null>(null);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,7 +75,8 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({
     validationSchema,
     onSubmit: (values) => {
       console.log(values);
-      onNext();
+      setShowModal(true);
+      //onNext();
     },
   });
 
@@ -142,7 +146,11 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({
           </button>
         </div>
       </form>
-      <Modal isVisible={isVisible} setIsVisible={setIsVisible}/>
+      {showModal && 
+            <ConfirmModal step={steps[0]} nextStep={steps[1]} setShowModal={setShowModal} onNext={onNext}/>
+
+      }
+      <Modal isVisible={isVisible} setIsVisible={setIsVisible} />
     </>
   );
 };

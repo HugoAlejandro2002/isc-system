@@ -6,19 +6,14 @@ import { ReviewerStage } from "./stages/ReviewerStage";
 import { ExternalDefenseStage } from "./stages/ExternalDefenseStage";
 import { Seminar } from "../models/studentProcess";
 import SpinModal from "./common/SpinModal";
+import { steps } from "../data/steps";
 interface ProgressTrackerProps { 
   currentStepIndex: number;
   status: string;
   studentProcess: Seminar;
 }
 
-const steps = [
-  "Seminario de Grado",
-  "Tutor",
-  "Revisor",
-  "Defensa Interna",
-  "Defensa Externa",
-];
+
 
 const ProgressTracker:FC<ProgressTrackerProps> = ({ currentStepIndex, status, studentProcess }) => {
   const [progressWidth, setProgressWidth] = useState((currentStepIndex / (steps.length - 1)) * 100);

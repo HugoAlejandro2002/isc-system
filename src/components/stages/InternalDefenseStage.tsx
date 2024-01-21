@@ -4,6 +4,8 @@ import { FC, useEffect, useState } from "react";
 import * as Yup from "yup";
 import { getMentors } from "../../services/mentorsService";
 import { Mentor } from "../../models/mentorInterface";
+import ConfirmModal from "../common/ConfirmModal";
+import { steps } from "../../data/steps";
 
 const validationSchema = Yup.object({
   president: Yup.string().required("* Debe seleccionar un presidente"),
@@ -23,6 +25,7 @@ export const InternalDefenseStage: FC<InternalDefenseStageProps> = ({
   const [secretaries, setSecretaries] = useState<Mentor[]>([]);
   const [presidents, setPresidents] = useState<Mentor[]>([]);
   const [, setError] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,7 +50,8 @@ export const InternalDefenseStage: FC<InternalDefenseStageProps> = ({
     validationSchema,
     onSubmit: (values) => {
       console.log(values);
-      onNext();
+      setShowModal(true);
+      //onNext();
     },
   });
 
@@ -120,6 +124,10 @@ export const InternalDefenseStage: FC<InternalDefenseStageProps> = ({
           </button>
         </div>
       </form>
+      {showModal && 
+            <ConfirmModal step={steps[3]} nextStep={steps[4]} setShowModal={setShowModal} onNext={onNext}/>
+
+      }
     </>
   );
 };

@@ -3,6 +3,8 @@ import { FC, useEffect, useState } from "react";
 import { Mentor } from "../../models/mentorInterface";
 import * as Yup from "yup";
 import { getMentors } from "../../services/mentorsService";
+import ConfirmModal from "../common/ConfirmModal";
+import { steps } from "../../data/steps";
 
 const validationSchema = Yup.object({
   mentor: Yup.string().required("* Debe seleccionar un tutor"),
@@ -17,6 +19,7 @@ export const MentorStage:FC<InternalDefenseStageProps> = ({ onPrevious, onNext }
 
   const [mentors, setMentors] = useState<Mentor[]>([]);
   const [, setError] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,7 +42,8 @@ export const MentorStage:FC<InternalDefenseStageProps> = ({ onPrevious, onNext }
     validationSchema,
     onSubmit: (values) => {
       console.log(values);
-      onNext();
+      setShowModal(true);
+      //onNext();
     },
   });
 
@@ -99,6 +103,10 @@ export const MentorStage:FC<InternalDefenseStageProps> = ({ onPrevious, onNext }
           </button>
         </div>
       </form>
+      {showModal && 
+            <ConfirmModal step={steps[1]} nextStep={steps[2]} setShowModal={setShowModal} onNext={onNext}/>
+
+      }
     </>
   );
 };

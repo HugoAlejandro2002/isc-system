@@ -3,6 +3,8 @@ import { FC, useEffect, useState } from "react";
 import * as Yup from "yup";
 import { getMentors } from "../../services/mentorsService";
 import { Mentor } from "../../models/mentorInterface";
+import ConfirmModal from "../common/ConfirmModal";
+import { steps } from "../../data/steps";
 
 const validationSchema = Yup.object({
   reviewer: Yup.string().required("* El revisor es obligatorio"),
@@ -19,6 +21,7 @@ export const ReviewerStage: FC<ReviewerStageProps> = ({
 }) => {
   const [reviewers, setReviewers] = useState<Mentor[]>([]);
   const [, setError] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +44,8 @@ export const ReviewerStage: FC<ReviewerStageProps> = ({
     validationSchema,
     onSubmit: (values) => {
       console.log(values);
-      onNext();
+      setShowModal(true);
+      //onNext();
     },
   });
 
@@ -104,6 +108,10 @@ export const ReviewerStage: FC<ReviewerStageProps> = ({
           </button>
         </div>
       </form>
+      {showModal && 
+            <ConfirmModal step={steps[2]} nextStep={steps[3]} setShowModal={setShowModal} onNext={onNext}/>
+
+      }
     </>
   );
 };

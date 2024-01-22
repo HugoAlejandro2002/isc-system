@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { periods } from "../data/periods";
 import { Modes } from './../models/modeInterface';

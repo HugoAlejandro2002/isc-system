@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { Seminar } from '../models/studentProcess';
 
 interface IProcessStore {
-    process: Seminar | null,
+    process: Seminar | null ,
     setProcess: (newProcess: Seminar) => void
 }
 

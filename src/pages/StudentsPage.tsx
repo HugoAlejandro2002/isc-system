@@ -39,13 +39,6 @@ const StudentsPage = () => {
     setCurrentPage(page);
   };
 
-  const dropdownStyle = {
-    // position: "absolute",
-    inset: "auto auto 0px 0px",
-    margin: 0,
-    transform: "translate3d(522.5px, 3847.5px, 0px)",
-  };
-
   return (
     <>
       <div className="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between m-10 mb-8 overflow-hidden">

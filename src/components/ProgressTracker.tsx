@@ -15,7 +15,7 @@ interface ProgressTrackerProps {
 
 
 
-const ProgressTracker:FC<ProgressTrackerProps> = ({ currentStepIndex, status, studentProcess }) => {
+const ProgressTracker:FC<ProgressTrackerProps> = ({ currentStepIndex, status }) => {
   const [progressWidth, setProgressWidth] = useState((currentStepIndex / (steps.length - 1)) * 100);
   const [currentStage, setCurrentStage] = useState(currentStepIndex);
 
@@ -36,7 +36,7 @@ const ProgressTracker:FC<ProgressTrackerProps> = ({ currentStepIndex, status, st
   const renderStage = () => {
     switch (currentStage) {
       case 0:
-        return <RegistrationStage onNext={goToNextStage} studentProcess={studentProcess}/>;
+        return <RegistrationStage onNext={goToNextStage}/>;
       case 1:
         return (
           <MentorStage onNext={goToNextStage} onPrevious={goToPreviousStage} />

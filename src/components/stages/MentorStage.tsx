@@ -6,6 +6,7 @@ import { getMentors } from "../../services/mentorsService";
 import ConfirmModal from "../common/ConfirmModal";
 import { steps } from "../../data/steps";
 import { useProcessStore } from "../../store/store";
+import { updateProcess } from "../../services/processServicer";
 
 const validationSchema = Yup.object({
   mentor: Yup.string().required("* Debe seleccionar un tutor"),
@@ -18,6 +19,8 @@ interface InternalDefenseStageProps {
 
 export const MentorStage: FC<InternalDefenseStageProps> = ({ onPrevious, onNext }) => {
   const process = useProcessStore(state => state.process);
+  const setProcess = useProcessStore(state => state.setProcess);
+  
   const [mentors, setMentors] = useState<Mentor[]>([]);
   const [, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -35,6 +38,22 @@ export const MentorStage: FC<InternalDefenseStageProps> = ({ onPrevious, onNext 
     fetchData();
   }, []);
 
+  const saveStage = async () => {
+    if (process) {
+      const { mentor, tutorDesignationLetterSubmitted } = formik.values;
+      process.tutor_letter = tutorDesignationLetterSubmitted;
+      process.tutor_id = mentor;
+      setProcess(process);
+      await updateProcess(process);
+      onNext();
+    }
+  };
+
+  const handleModalAction = () => {
+    saveStage();
+    setShowModal(false);
+  };
+
   const formik = useFormik({
     initialValues: {
       tutorDesignationLetterSubmitted: process?.tutor_letter || false,
@@ -46,20 +65,11 @@ export const MentorStage: FC<InternalDefenseStageProps> = ({ onPrevious, onNext 
       if (canApproveStage()) {
         setShowModal(true);
       }
-
-      //onNext();
     },
   });
 
   const canApproveStage = () => formik.values.mentor && formik.values.tutorDesignationLetterSubmitted;
-
-  const renderButtonText = () => {
-    if (canApproveStage()) {
-      return "Aprobar";
-    } else {
-      return "Guardar";
-    }
-  };
+  const isApproveButton = canApproveStage();
 
   return (
     <>
@@ -112,13 +122,12 @@ export const MentorStage: FC<InternalDefenseStageProps> = ({ onPrevious, onNext 
             Anterior
           </button>
           <button type="submit" className="btn">
-            {renderButtonText()}
+            {isApproveButton ? "Aprobar" : "Guardar"}
           </button>
         </div>
       </form>
       {showModal &&
-        <ConfirmModal step={steps[1]} nextStep={steps[2]} setShowModal={setShowModal} onNext={onNext} />
-
+        <ConfirmModal step={steps[1]} nextStep={steps[2]} setShowModal={setShowModal} onNext={handleModalAction} />
       }
     </>
   );

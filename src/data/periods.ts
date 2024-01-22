@@ -16,3 +16,5 @@ export const periods = [
         value: "Segundo 2024",
     },
 ];
+
+export const currentPeriod = "Primero 2024";

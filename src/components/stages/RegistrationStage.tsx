@@ -4,20 +4,19 @@ import * as Yup from "yup";
 
 import { Modes } from "../../models/modeInterface";
 import { getModes } from "../../services/modesService";
-import { Seminar } from "../../models/studentProcess";
 import { Modal } from "../common/Modal";
 import ConfirmModal from "../common/ConfirmModal";
 import { steps } from "../../data/steps";
-import { periods } from '../../data/periods';
-
+import { periods, currentPeriod } from '../../data/periods';
+import { useProcessStore } from "../../store/store";
+import { updateProcess } from '../../services/processServicer';
 const validationSchema = Yup.object({
   mode: Yup.string().required("* La modalidad es obligatoria"),
-  date: Yup.date().required("* El periodo es obligatorio"),
+  period: Yup.date().required("* El periodo es obligatorio"),
 });
 
 interface RegistrationStageProps {
   onNext: () => void;
-  studentProcess: Seminar;
 }
 
 const getIdFromValue = (value: string) => {
@@ -25,10 +24,16 @@ const getIdFromValue = (value: string) => {
   return period ? period.id : "";
 };
 
+const getValueFromId = (id: number) => {
+  const period = periods.find((period) => period.id === id);
+  return period ? period.value : "";
+}
+
 export const RegistrationStage: FC<RegistrationStageProps> = ({
   onNext,
-  studentProcess,
 }) => {
+  const studentProcess = useProcessStore(state => state.process);
+  const setProcess = useProcessStore(state => state.setProcess);
   const [modes, setModes] = useState<Modes[]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -45,20 +50,32 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({
         setError(error);
       }
     };
-
     fetchData();
   }, []);
 
+  const saveStage = async (mode: number, period: string) => {
+    if (studentProcess) {
+      studentProcess.modality_id = mode;
+      studentProcess.period = period;
+      setProcess(studentProcess);
+      await updateProcess(studentProcess);
+      onNext();
+    }
+  };
+
+  const handleModalAction = () => {
+    saveStage(formik.values.mode, getValueFromId(Number(formik.values.period)));
+    setIsVisible(false);
+  };
+
   const formik = useFormik({
     initialValues: {
-      mode: Number(studentProcess.modality_id),
-      date: getIdFromValue(studentProcess.period),
+      mode: Number(studentProcess?.modality_id),
+      period: getIdFromValue(studentProcess?.period || currentPeriod),
     },
     validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: () => {
       setShowModal(true);
-      //onNext();
     },
   });
 
@@ -96,26 +113,26 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({
           <div className="flex-1">
             <label className="txt2">2. Seleccione periodo de inscripción</label>
             <select
-              id="date"
-              name="date"
+              id="period"
+              name="period"
               onChange={formik.handleChange}
-              value={formik.values.date}
+              value={formik.values.period}
               disabled
-              className={`select-1 ${formik.touched.date && formik.errors.date
-                  ? "border-red-1"
-                  : "border-gray-300"
+              className={`select-1 ${formik.touched.period && formik.errors.period
+                ? "border-red-1"
+                : "border-gray-300"
                 }`}
             >
-              <option value="">Seleccione un Tutor</option>
+              <option value="">Seleccione Periodo</option>
               {periods.map((option) => (
                 <option key={option.id} value={option.id}>
                   {option.value}
                 </option>
               ))}
             </select>
-            {formik.touched.date && formik.errors.date ? (
+            {formik.touched.period && formik.errors.period ? (
               <div className="text-red-1 text-xs font-medium mt-1">
-                {formik.errors.date}
+                {formik.errors.period}
               </div>
             ) : null}
           </div>
@@ -128,7 +145,7 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({
         </div>
       </form>
       {showModal &&
-        <ConfirmModal step={steps[0]} nextStep={steps[1]} setShowModal={setShowModal} onNext={onNext} />
+        <ConfirmModal step={steps[0]} nextStep={steps[1]} setShowModal={setShowModal} onNext={handleModalAction} />
 
       }
       <Modal isVisible={isVisible} setIsVisible={setIsVisible} />

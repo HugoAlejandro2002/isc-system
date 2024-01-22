@@ -6,6 +6,7 @@ import { Mentor } from "../../models/mentorInterface";
 import ConfirmModal from "../common/ConfirmModal";
 import { steps } from "../../data/steps";
 import { useProcessStore } from "../../store/store";
+import { updateProcess } from "../../services/processServicer";
 
 const validationSchema = Yup.object({
   reviewer: Yup.string().required("* El revisor es obligatorio"),
@@ -20,10 +21,12 @@ export const ReviewerStage: FC<ReviewerStageProps> = ({
   onPrevious,
   onNext,
 }) => {
+  const process = useProcessStore(state => state.process);
+  const setProcess = useProcessStore(state => state.setProcess);
+
   const [reviewers, setReviewers] = useState<Mentor[]>([]);
   const [, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const process = useProcessStore(state => state.process);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,16 +41,30 @@ export const ReviewerStage: FC<ReviewerStageProps> = ({
     fetchData();
   }, []);
 
+  const saveStage = async () => {
+    if (process) {
+      const { reviewer, reviewerDesignationLetterSubmitted } = formik.values;
+      process.reviewer_letter = reviewerDesignationLetterSubmitted;
+      process.reviewer_id = reviewer;
+      setProcess(process);
+      await updateProcess(process);
+      onNext();
+    }
+  };
+
+  const handleModalAction = () => {
+    saveStage();
+    setShowModal(false);
+  };
+
   const formik = useFormik({
     initialValues: {
       reviewerDesignationLetterSubmitted: process?.reviewer_letter || false,
       reviewer: process?.reviewer_id,
     },
     validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: () => {
       setShowModal(true);
-      //onNext();
     },
   });
 
@@ -67,11 +84,10 @@ export const ReviewerStage: FC<ReviewerStageProps> = ({
             name="reviewer"
             onChange={formik.handleChange}
             value={formik.values.reviewer}
-            className={`bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-2 block w-full p-2.5 mt-2 ${
-              formik.touched.reviewer && formik.errors.reviewer
+            className={`bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-2 block w-full p-2.5 mt-2 ${formik.touched.reviewer && formik.errors.reviewer
                 ? "border-red-1"
                 : "border-gray-300"
-            }`}
+              }`}
           >
             <option value="">Seleccione un Revisor</option>
             {reviewers.map((option) => (
@@ -110,8 +126,8 @@ export const ReviewerStage: FC<ReviewerStageProps> = ({
           </button>
         </div>
       </form>
-      {showModal && 
-            <ConfirmModal step={steps[2]} nextStep={steps[3]} setShowModal={setShowModal} onNext={onNext}/>
+      {showModal &&
+        <ConfirmModal step={steps[2]} nextStep={steps[3]} setShowModal={setShowModal} onNext={handleModalAction} />
 
       }
     </>

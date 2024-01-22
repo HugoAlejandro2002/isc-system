@@ -29,6 +29,9 @@ const ProgressTracker:FC<ProgressTrackerProps> = ({ currentStepIndex, status, st
     setProgressWidth(((currentStage - 1) / (steps.length - 1)) * 100);
   };
 
+  const goToResume = () => {
+    setCurrentStage((prevStage: number) => prevStage + 1);
+  }
 
   const renderStage = () => {
     switch (currentStage) {
@@ -56,7 +59,7 @@ const ProgressTracker:FC<ProgressTrackerProps> = ({ currentStepIndex, status, st
         return (
           <ExternalDefenseStage
             onPrevious={goToPreviousStage}
-            onNext={goToNextStage}
+            onNext={goToResume}
           />
         );
       default:

@@ -7,13 +7,13 @@ export interface Seminar {
     project_name: string;
     reviewer_approval: boolean | null;
     reviewer_id: number;
-    reviewer_letter: string | null;
+    reviewer_letter: boolean | null;
     reviewer_name: string;
     seminar_enrollment: string | null;
     student_id: number;
     student_name: string;
     tutor_approval: boolean | null;
     tutor_id: number;
-    tutor_letter: string | null;
+    tutor_letter: boolean | null;
     tutor_name: string;
 }

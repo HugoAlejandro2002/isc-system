@@ -5,6 +5,7 @@ import { getMentors } from "../../services/mentorsService";
 import { Mentor } from "../../models/mentorInterface";
 import ConfirmModal from "../common/ConfirmModal";
 import { steps } from "../../data/steps";
+import { useProcessStore } from "../../store/store";
 
 const validationSchema = Yup.object({
   reviewer: Yup.string().required("* El revisor es obligatorio"),
@@ -22,6 +23,7 @@ export const ReviewerStage: FC<ReviewerStageProps> = ({
   const [reviewers, setReviewers] = useState<Mentor[]>([]);
   const [, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const process = useProcessStore(state => state.process);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,8 +40,8 @@ export const ReviewerStage: FC<ReviewerStageProps> = ({
 
   const formik = useFormik({
     initialValues: {
-      tutorDesignationLetterSubmitted: false,
-      reviewer: "",
+      reviewerDesignationLetterSubmitted: process?.reviewer_letter || false,
+      reviewer: process?.reviewer_id,
     },
     validationSchema,
     onSubmit: (values) => {
@@ -84,12 +86,12 @@ export const ReviewerStage: FC<ReviewerStageProps> = ({
             </div>
           ) : null}
         </div>
-        <div className="mt-5 mx-5">
+        <div className="mt-5">
           <label className="inline-flex items-center">
             <input
               type="checkbox"
-              name="tutorDesignationLetterSubmitted"
-              checked={formik.values.tutorDesignationLetterSubmitted}
+              name="reviewerDesignationLetterSubmitted"
+              checked={formik.values.reviewerDesignationLetterSubmitted}
               onChange={formik.handleChange}
               className="checkbox"
             />

@@ -8,35 +8,17 @@ import { Seminar } from "../../models/studentProcess";
 import { Modal } from "../common/Modal";
 import ConfirmModal from "../common/ConfirmModal";
 import { steps } from "../../data/steps";
+import { periods } from '../../data/periods';
 
 const validationSchema = Yup.object({
   mode: Yup.string().required("* La modalidad es obligatoria"),
-  date: Yup.date().required("* La fecha es obligatoria"),
+  date: Yup.date().required("* El periodo es obligatorio"),
 });
 
 interface RegistrationStageProps {
   onNext: () => void;
   studentProcess: Seminar;
 }
-
-const periods = [
-  {
-    id: 1,
-    value: "Primero 2023",
-  },
-  {
-    id: 2,
-    value: "Segundo 2023",
-  },
-  {
-    id: 3,
-    value: "Primero 2024",
-  },
-  {
-    id: 4,
-    value: "Segundo 2024",
-  },
-];
 
 const getIdFromValue = (value: string) => {
   const period = periods.find((period) => period.value === value);
@@ -119,11 +101,10 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({
               onChange={formik.handleChange}
               value={formik.values.date}
               disabled
-              className={`select-1 ${
-                formik.touched.date && formik.errors.date
+              className={`select-1 ${formik.touched.date && formik.errors.date
                   ? "border-red-1"
                   : "border-gray-300"
-              }`}
+                }`}
             >
               <option value="">Seleccione un Tutor</option>
               {periods.map((option) => (
@@ -146,8 +127,8 @@ export const RegistrationStage: FC<RegistrationStageProps> = ({
           </button>
         </div>
       </form>
-      {showModal && 
-            <ConfirmModal step={steps[0]} nextStep={steps[1]} setShowModal={setShowModal} onNext={onNext}/>
+      {showModal &&
+        <ConfirmModal step={steps[0]} nextStep={steps[1]} setShowModal={setShowModal} onNext={onNext} />
 
       }
       <Modal isVisible={isVisible} setIsVisible={setIsVisible} />

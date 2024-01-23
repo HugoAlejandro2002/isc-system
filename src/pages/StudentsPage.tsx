@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 import Table from "../components/Table";
 import { FaSearch } from "react-icons/fa";
 import { Student } from "../models/studentInterface";
@@ -23,6 +23,7 @@ const StudentsPage = () => {
     message: string;
   };
   const { data: students } = studentsResponse;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const results = students.filter((item: Student) =>
@@ -39,9 +40,13 @@ const StudentsPage = () => {
     setCurrentPage(page);
   };
 
+  const goToCreateProcessPage = () => {
+    navigate("/createProcess")
+  }
+
   return (
     <>
-      <div className="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between m-10 mb-8 overflow-hidden">
+      <div className="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between m-10 mb-8 overflow-hidden py-2">
         <label htmlFor="table-search" className="sr-only">
           Search
         </label>
@@ -58,6 +63,7 @@ const StudentsPage = () => {
             onChange={handleSearchChange}
           />
         </div>
+        <button className="btn z-50 relative" onClick={goToCreateProcessPage}> Crear Proceso de Graduación</button>
       </div>
       <Table
         data={filteredData}

@@ -11,6 +11,11 @@
 .btn2 {
   @apply bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg shadow shadow-slate-600 hover:shadow-none;
 }
+
+.txt {
+  @apply text-xl text-blue-950 font-semibold
+}
+
 .txt1 {
   @apply text-xl text-blue-950 font-semibold mt-14 ps-6
 }
@@ -38,6 +43,10 @@
 
 .select-1 {
   @apply bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-2 block w-full p-2.5 mt-2
+}
+
+.select-2 {
+  @apply bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-2  block w-full md:w-full sm:w-full p-2.5 mt-1
 }
 
 .btn-cancel {

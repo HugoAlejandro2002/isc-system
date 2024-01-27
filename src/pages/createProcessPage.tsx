@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { periods } from "../data/periods";
-import { Modes } from './../models/modeInterface';
+import { Modes } from "./../models/modeInterface";
 import { getModes } from "../services/modesService";
 import { getProcess } from "../services/processServicer";
 import { Student } from "../models/studentInterface";
@@ -11,6 +11,7 @@ const validationSchema = Yup.object({
   student: Yup.string().required("* Debe seleccionar un estudiante"),
   mode: Yup.string().required("* Debe seleccionar un modo"),
   period: Yup.string().required("* Debe seleccionar un periodo"),
+  project_name: Yup.string().required("* Debe colocar el nombre del proyecto"),
 });
 
 const createProcessPage = () => {
@@ -39,12 +40,12 @@ const createProcessPage = () => {
       student: "",
       mode: "",
       period: "",
+      project_name: "",
     },
     validationSchema,
     onSubmit: (values) => {
       console.log(values);
       //onNext();
-
     },
   });
   return (
@@ -55,10 +56,8 @@ const createProcessPage = () => {
 
           <form onSubmit={formik.handleSubmit} className="mx-16 ">
             <div className="flex flex-col">
-            <div className="flex-1">
-                <label className="txt2">
-                  1. Seleccione un estudiante
-                </label>
+              <div className="flex-1">
+                <label className="txt2">1. Seleccione un estudiante</label>
                 <select
                   id="student"
                   name="student"
@@ -85,38 +84,36 @@ const createProcessPage = () => {
                 ) : (
                   <div className="h-5" />
                 )}
-                
+
                 <div className="flex-1">
-                <label className="txt2">
-                  2. Seleccione la modalidad
-                </label>
-                <select
-                  id="mode"
-                  name="mode"
-                  onChange={formik.handleChange}
-                  value={formik.values.mode}
-                  className={`select-2 ${
-                    formik.touched.mode && formik.errors.mode
-                      ? "border-red-1"
-                      : "border-gray-300"
-                  }`}
-                >
-                  <option value="">Seleccione la modalidad</option>
-                  {modes.map((option) => (
-                    <option key={option.id} value={option.id}>
-                      {option.name}
-                    </option>
-                  ))}
-                </select>
-                {formik.touched.mode && formik.errors.mode ? (
-                  <div className="text-red-1 text-xs mt-1">
-                    {formik.errors.mode}
-                  </div>
-                ) : (
-                  <div className="h-5" />
-                )}
+                  <label className="txt2">2. Seleccione la modalidad</label>
+                  <select
+                    id="mode"
+                    name="mode"
+                    onChange={formik.handleChange}
+                    value={formik.values.mode}
+                    className={`select-2 ${
+                      formik.touched.mode && formik.errors.mode
+                        ? "border-red-1"
+                        : "border-gray-300"
+                    }`}
+                  >
+                    <option value="">Seleccione la modalidad</option>
+                    {modes.map((option) => (
+                      <option key={option.id} value={option.id}>
+                        {option.name}
+                      </option>
+                    ))}
+                  </select>
+                  {formik.touched.mode && formik.errors.mode ? (
+                    <div className="text-red-1 text-xs mt-1">
+                      {formik.errors.mode}
+                    </div>
+                  ) : (
+                    <div className="h-5" />
+                  )}
+                </div>
               </div>
-            </div>
 
               <div className="flex-1">
                 <label className="txt2">
@@ -149,11 +146,34 @@ const createProcessPage = () => {
                 )}
               </div>
             </div>
+            <div className="flex-1">
+              <label className="txt2">
+                4. Ingrese el nombre del proyecto
+              </label>
+              <input
+                id="project_name"
+                name="project_name"
+                onChange={formik.handleChange}
+                value={formik.values.project_name}
+                placeholder="Ingrese el nombre del proyecto"
+                className={`select-2 ${
+                  formik.touched.project_name && formik.errors.project_name
+                    ? "border-red-1"
+                    : "border-gray-300"
+                }`}
+              />
+              {formik.touched.project_name && formik.errors.project_name ? (
+                <div className="text-red-1 text-xs mt-1">
+                  {formik.errors.project_name}
+                </div>
+              ) : (
+                <div className="h-5" />
+              )}
+            </div>
 
             <div className="flex justify-center pt-5">
-              
               <button type="submit" className="btn">
-                Crear  
+                Crear
               </button>
             </div>
           </form>

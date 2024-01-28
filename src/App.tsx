@@ -12,6 +12,8 @@ import LoginPage from "./pages/LoginPage";
 import Layout from "./layout/Layout";
 import DashboardPage from "./pages/DashboardPage";
 import CreateProcessPage from './pages/createProcessPage';
+import ProfessorPage from "./pages/ProfessorPage";
+import CreateProfessorPage from "./pages/CreateProfessorPage";
 
 function loader() {
   return getProcess();
@@ -40,6 +42,16 @@ const router = createBrowserRouter([
         path: '/home',
         loader: loader,
         element: <StudentsPage />,
+      },
+      {
+        path: '/professors',
+        loader: loader,
+        element: <ProfessorPage />,
+      },
+      {
+        path: '/create-professor',
+        loader: loader,
+        element: <CreateProfessorPage />,
       },
       {
         path: '/studentProfile/:id',

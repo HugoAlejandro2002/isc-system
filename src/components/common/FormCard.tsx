@@ -1,5 +1,3 @@
-import React from 'react';
-
 const FormCard = () => {
   return (
     <div className="flex flex-col space-y-4">
